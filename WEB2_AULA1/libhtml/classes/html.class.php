@@ -1,5 +1,5 @@
 <?php
-    class claHtml{
+    class Html{
         private $linguagem;
         private $head;
         private $body;
