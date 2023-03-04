@@ -7,6 +7,11 @@
     $head->addMetas(null,null,"UTF-8");
     $head->addMetas("viewport","width=device-width, initial-scale=1.0");
     
-    echo(new Html("en",$head,""))
+    $body = new Body();
+
+    $body->addItens("teste");
+
+    echo(new Html("en",$head,$body))
 
 ?>
+
