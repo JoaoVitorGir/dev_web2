@@ -13,12 +13,13 @@
 
         function __toString()
         {
+            // Começa a construir a resposta em HTML
             $resposta = "<!DOCTYPE html> <html lang=".$this->linguagem.">".
-                        $this->head.
-                        $this->body.
-                        "</html>";
+                        $this->head.  // Adiciona a tag head
+                        $this->body.  // Adiciona a tag body
+                        "</html>";   // Fecha a tag html
             
-        return $resposta;
+            return $resposta;  // Retorna a resposta em HTML
         }
     }
 ?>

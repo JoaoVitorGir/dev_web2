@@ -1,8 +1,11 @@
 <?php
-    class Head{
-        private $metas = [];
-        private $title;
 
+    class Head{
+        private $metas = []; // Array para armazenar as tags meta
+        private $title; // Título da página
+        private $links = []; // Array para armazenar as tags link
+
+        // Adiciona uma nova tag meta
         function addMetas($name=null, $content=null, $charset=null, $http_equiv=null){
             $NewMeta = "";
             if ($name != null){
@@ -21,20 +24,41 @@
             $this->metas[] = "<meta ".$NewMeta." >";
         }
 
+        // Adiciona uma nova tag link
+        function addlink($rel=null, $href=null, $type=null){
+            $newLink = "";
+            if($rel != null){
+                $newLink = $newLink." rel=\"$rel\"";
+            }
+            if($href != null){
+                $newLink = $newLink." href=\"$href\"";
+            }
+            if($type != null){
+                $newLink = $newLink." type=\"$type\"";
+            }
+            $this->links[] = "<link ".$newLink.">";
+        }
+
+        // Construtor da classe
         function __construct($title)
         {
             $this->title = $title;
         }
 
+        // Converte a classe em uma string
         function __toString()
         {
             $resultado = "<head>";
             foreach($this->metas as $itensMeta){
                 $resultado = $resultado. $itensMeta; 
             }
+            foreach($this->links as $link){
+                $resultado = $resultado. $link;    
+            }
             $resultado = $resultado. "<title>".$this->title."</title>";
             $resultado = $resultado. "</head>";
             return $resultado;
         }
     }
+
 ?>
