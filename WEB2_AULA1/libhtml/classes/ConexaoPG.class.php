@@ -14,6 +14,7 @@
             }
         }
 
+
         public function execQuery($sql, $params = null) {
             try {
                 $stmt = $this->pdo->prepare($sql);

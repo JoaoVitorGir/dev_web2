@@ -26,13 +26,13 @@
     $lista->addItens(new A("#","links","Google"));
     $lista->addItens(new A("#","links","Youtube"));
 
-    $conect = new ConexaoPG("dev_web2","postgres",123);
+   // $conect = new ConexaoPG("dev_web2","postgres",123);
 
-    $resposta = $conect->execQuery("select nome from usuario");
+    //$resposta = $conect->execQuery("select nome from usuario");
 
-    foreach($resposta as $nomes){
-        $lista->addItens(new A("#","links",$nomes));
-    }
+    //foreach($resposta as $nomes){
+    //    $lista->addItens(new A("#","links",$nomes));
+    //}
 
     // Adiciona a lista à div
     $div->addItens($lista);
