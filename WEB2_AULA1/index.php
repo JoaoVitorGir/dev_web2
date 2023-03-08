@@ -1,6 +1,6 @@
 <?php
     // Inclui a classe de carregamento automático de arquivos
-    require("libhtml/classes/autoload.class.php");
+    require("autoload.php");
     
     // Cria uma instância da classe Head
     $head = new Head("Teste Pagina");
