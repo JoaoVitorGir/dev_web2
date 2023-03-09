@@ -1,8 +1,43 @@
+@font-face {
+    font-family: "Nunito-padrao";
+    src: url("fonts/Nunito/static/Nunito-Regular.ttf");
+}
+
 .lista{
     background-color: royalblue;
 }
 
+.li-titulo,
 .links{
     text-decoration: none;
     color: white;
 }
+
+.topMenu{
+    background-color: red;
+    color: white;
+    margin: 0;
+    padding: 1em;
+}
+
+.lista-ul {
+    display: flex;
+    margin: 0;
+    list-style: none;
+    align-items: baseline;
+}
+
+.lista-menu-itens{
+    margin: 0em 1em 0em 1em;
+}
+
+.li-titulo{
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.body{
+    margin: 0;
+    font-family: "Nunito-padrao",sans-serif;
+}
+

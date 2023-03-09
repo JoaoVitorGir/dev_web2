@@ -14,15 +14,16 @@
     $head->addlink("stylesheet","estilo/style.css");
 
     // Cria uma instância da classe Body
-    $body = new Body();
+    $body = new Body("body");
 
     // Cria uma instância da classe Div
     $div = new Div("lista");
 
     // Cria uma instância da classe Listas
-    $lista = new Listas("ul","lista-li");
+    $lista = new Listas("ul","lista-menu-itens","lista-ul");
 
     // Adiciona itens à lista
+    //$lista->addItens(new A("#","li-titulo","Título"));
     $lista->addItens(new A("#","links","Google"));
     $lista->addItens(new A("#","links","Youtube"));
 
@@ -33,11 +34,18 @@
     //foreach($resposta as $nomes){
     //    $lista->addItens(new A("#","links",$nomes));
     //}
+    
+    //Adiciona um menu no topo da pagina
+    $topMenu = new Menu("topMenu");
+
+    $topMenu->addItens(new A("#","li-titulo","Título"));
+    $topMenu->addItens($lista);
 
     // Adiciona a lista à div
-    $div->addItens($lista);
+    //$div->addItens($lista);
 
     // Adiciona a div ao body
+    $body->addItens($topMenu);
     $body->addItens($div);
 
     // Cria uma instância da classe Html e adiciona, head e o body criados anteriormente
