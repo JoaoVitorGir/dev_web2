@@ -1,10 +1,10 @@
 <?php
-    class Menu{
+    class Menu extends ObjPrincipal{
         private $itens = [];
         private $class;
 
         function __construct($newClass=null){
-            $this->class = $newClass;
+            parent::__construct(null,$newClass);
         }
 
         function addItens($newItem){
@@ -12,8 +12,8 @@
         }
 
         function __toString(){
-            if ($this->class != null){
-                $resultado = "<nav class=\"{$this->class}\">";
+            if ($this->getClass() != null){
+                $resultado = "<nav class=\"{$this->getClass()}\">";
             }else{
                 $resultado = "<nav>";
             }

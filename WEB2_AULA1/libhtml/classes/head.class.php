@@ -25,7 +25,7 @@
         }
 
         // Adiciona uma nova tag link
-        function addlink($rel=null, $href=null, $type=null){
+        function addlink($rel=null, $href=null, $type=null,$integrity=null,$crossorigin=null){
             $newLink = "";
             if($rel != null){
                 $newLink = $newLink." rel=\"$rel\"";
@@ -36,6 +36,14 @@
             if($type != null){
                 $newLink = $newLink." type=\"$type\"";
             }
+            if($integrity != null){
+                $newLink .= " integraty=\"$integrity\"";
+            }
+            if($crossorigin != null){
+                $newLink .= " crossorign=\"$crossorigin\"";
+            }
+
+
             $this->links[] = "<link ".$newLink.">";
         }
 

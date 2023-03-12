@@ -1,6 +1,6 @@
 <?php
 
-    class Div{
+    class Div extends ObjPrincipal{
         // Atributos da div
         private $class;
         private $id;
@@ -8,8 +8,7 @@
 
         // Construtor que recebe a classe e o id da div
         function __construct($class=null,$id = null){
-            $this->class = $class;
-            $this->id = $id;
+            parent::__construct($id,$class);
         }
 
         // Método que adiciona itens à div
@@ -20,8 +19,8 @@
         // Método que retorna a string HTML da div
         function __toString(){
             // Inicia a string HTML com a tag de abertura da div e seus atributos
-            $resultado = "<div ".($this->id == null ? null : "id=\"{$this->id}\"").
-                         ($this->class == null ? null : "class=\"{$this->class}\"").">";
+            $resultado = "<div ".($this->getId() == null ? null : "id=\"{$this->getId()}\"").
+                         ($this->getClass() == null ? null : "class=\"{$this->getClass()}\"").">";
             // Itera sobre os itens adicionados à div e os adiciona à string HTML
             foreach($this->itensDiv as $item){
                 $resultado = $resultado. $item;

@@ -1,12 +1,11 @@
 <?php
 
     // Declaração da classe Body
-    class Body{
+    class Body extends ObjPrincipal{
         private $totalItens = [];
-        private $class;
 
         function __construct($class=null){
-            $this->class = $class;
+            parent::__construct(null,$class);
         }
 
         // Método para adicionar itens ao Body
@@ -17,8 +16,8 @@
         // Método para retornar o Body como uma string formatada em HTML
         function __toString(){
             //adiciona uma class caso tenha sido passado uma
-            if ($this->class != null){
-                $resultado = "<body class=\"{$this->class}\">";
+            if ($this->getClass() != null){
+                $resultado = "<body class=\"{$this->getClass()}\">";
             }else{
                 $resultado = "<body>";
             }

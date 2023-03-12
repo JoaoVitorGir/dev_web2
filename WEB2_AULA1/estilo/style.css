@@ -3,21 +3,36 @@
     src: url("fonts/Nunito/static/Nunito-Regular.ttf");
 }
 
+@font-face {
+    font-family: "Graduate";
+    src: url("fonts/Graduate/Graduate-Regular.ttf");
+    
+}
+
 .lista{
     background-color: royalblue;
 }
 
-.li-titulo,
-.links{
+.links-topMenu{
     text-decoration: none;
+    color: #d8d8d8;
+}
+
+.links-topMenu:hover{
     color: white;
 }
 
+.list-topMenu{
+    cursor: pointer;
+}
+
 .topMenu{
-    background-color: red;
+    background-color: #1a1f3e;
     color: white;
     margin: 0;
     padding: 1em;
+    display: flex;
+    align-items: baseline;
 }
 
 .lista-ul {
@@ -25,15 +40,11 @@
     margin: 0;
     list-style: none;
     align-items: baseline;
+    margin-left: 2em;
 }
 
 .lista-menu-itens{
     margin: 0em 1em 0em 1em;
-}
-
-.li-titulo{
-    font-size: 2em;
-    font-weight: bold;
 }
 
 .body{
@@ -41,3 +52,78 @@
     font-family: "Nunito-padrao",sans-serif;
 }
 
+.a-titulo{
+    font-size: 2em;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 4em;
+    font-family: "Graduate",sans-serif;
+    color: gold;
+}
+
+.Img-Icon-List{
+    color: white;
+}
+
+.div-principal{
+    color: gold;
+}
+
+.col-Esquerda{
+    background-color: white;
+}
+
+.col-Direita{
+    background-color: #323756;
+}
+
+.lista-Esquerda{
+    color: white;
+    list-style: none;
+}
+
+.title-colEsquerda{
+    text-align: center;
+    color: white;
+    margin: 0px 0 20px 0;
+    font-family: "Graduate",sans-serif;
+}
+
+.lista-ul-menu-Bar{
+    margin: 0;
+    padding-left: 1.6em;
+}
+
+.rodape{
+    background-color: #1a1f3e;
+    color: white;
+}
+
+.lista-footer{
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly; 
+    font-style: italic;
+    font-size: 0.8em;
+    padding: 2em;
+    margin: 0;
+}
+
+.menu-Bar{
+    background-color: #606060;
+    border-radius: 2em;
+    margin: 1em 0 1em 0;
+    padding-bottom: 1em;
+}
+
+.li-produtos{
+    text-decoration: none;
+    color: gold;
+}
+
+.li-produtos:hover{
+    color: white;
+    text-shadow: 0 0 10px white,
+                 0 0 50px white,
+                 0 0 100px white;
+}

@@ -1,8 +1,6 @@
 <?php
-    class A {
+    class A  extends ObjPrincipal{
         private $href;
-        private $id;
-        private $class;
         private $target;
         private $value;
 
@@ -10,20 +8,20 @@
         {
             // Define as propriedades da classe a partir dos parâmetros do construtor
             $this->href = $href;
-            $this->id = $id;
-            $this->class = $class;
             $this->target = $target;
             $this->value = $value;
+
+            parent::__construct($id,$class);
         }
 
         function __toString()
         {
             // Cria uma string com a tag <a> a partir das propriedades da classe
-            $resultado = "<a href=\"{$this->href}\" class=\"{$this->class}\"";
+            $resultado = "<a href=\"{$this->href}\" class=\"{$this->getClass()}\"";
 
             // Adiciona o atributo 'id' caso ele tenha sido definido
-            if ($this->id != null) {
-                $resultado .= " id=\"{$this->id}\"";
+            if ($this->getId() != null) {
+                $resultado .= " id=\"{$this->getId()}\"";
             }
 
             // Adiciona o atributo 'target' caso ele tenha sido definido
