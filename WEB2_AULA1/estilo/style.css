@@ -127,3 +127,10 @@
                  0 0 50px white,
                  0 0 100px white;
 }
+
+.color-top-menu{
+    position: absolute;
+    right: 1em;
+    top: 25px;
+    cursor: pointer;
+}
