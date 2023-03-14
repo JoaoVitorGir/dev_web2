@@ -3,7 +3,8 @@
         private $href;
         private $target;
         private $value;
-
+ 
+        
         function __construct($href, $class, $value, $id = null, $target = null)
         {
             // Define as propriedades da classe a partir dos parâmetros do construtor
