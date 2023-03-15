@@ -1,3 +1,11 @@
+:root{
+    --dark_primary : #0e1117;
+    --dark_secundary : #181d27;
+    --light_primary : #F1FFF7;
+    --light_secundary : #f1fbf6;
+    --extremidades : #0C4B33;
+}
+
 @font-face {
     font-family: "Nunito-padrao";
     src: url("fonts/Nunito/static/Nunito-Regular.ttf");
@@ -27,7 +35,7 @@
 }
 
 .topMenu{
-    background-color: #1a1f3e;
+    background-color: var(--extremidades);
     color: white;
     margin: 0;
     padding: 1em;
@@ -49,6 +57,7 @@
 
 .body{
     margin: 0;
+    background-color: #0e1117;
     font-family: "Nunito-padrao",sans-serif;
 }
 
@@ -70,11 +79,11 @@
 }
 
 .col-Esquerda{
-    background-color: white;
+    background-color: var(--dark_secundary);
 }
 
 .col-Direita{
-    background-color: #323756;
+    background-color: var(--dark_primary);
 }
 
 .lista-Esquerda{
@@ -95,7 +104,7 @@
 }
 
 .rodape{
-    background-color: #1a1f3e;
+    background-color: var(--extremidades);
     color: white;
 }
 
@@ -110,8 +119,6 @@
 }
 
 .menu-Bar{
-    background-color: #606060;
-    border-radius: 2em;
     margin: 1em 0 1em 0;
     padding-bottom: 1em;
 }
