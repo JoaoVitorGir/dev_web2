@@ -59,38 +59,61 @@
     $menuBar = new Div("menu-Bar");
     $itensColEsquerda = new Listas("ul","lista-Esquerda","lista-ul-menu-Bar"); //lista de itens 
 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Intenet")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Intenet"));
-    $itensColEsquerda->addItens(new A("#","li-produtos","Celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Intenet"));
-    $itensColEsquerda->addItens(new A("#","li-produtos","Celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Intenet"));
-    $itensColEsquerda->addItens(new A("#","li-produtos","Celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","Intenet"));
+    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
+    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
     
     
     $menuBar->addItens(new Title("PRODUTOS",2,"title-colEsquerda")); //titulo coluna esquerda
     $menuBar->addItens($itensColEsquerda); //add os itens na culuna
     $colEsquerda->addItens($menuBar);
 
-    $colDireita->addItens(new Title("IMAGENS DOS ITENS",1,"title-colEsquerda")); // titulo da coluna direita
+    $colDireita->addItens(new Title("PESSOAS",1,"title-colEsquerda")); // titulo da coluna direita
+    
+    $table = new Table("table-Produtos");
+
+    $TitleTable = array("ID","Nome","CPF");
+
+    $table->addArrTitle($TitleTable);
+
+    $linhas1 = array("1","Joao","123.456.789-11");
+    $linhas2 = array("1","Joao","123.456.789-11");
+    $linhas3 = array("1","Joao","123.456.789-11");
+    $linhas4 = array("1","Joao","123.456.789-11");
+    $linhas5 = array("1","Joao","123.456.789-11");
+    $linhas6 = array("1","Joao","123.456.789-11");
+
+    $table->addLinha($linhas1);
+    $table->addLinha($linhas2);
+    $table->addLinha($linhas3);
+    $table->addLinha($linhas4);
+    $table->addLinha($linhas5);
+    $table->addLinha($linhas6);
+
+    $colDireita->addItens($table->Renderizar());
 
     $row1->addItens($colEsquerda); // add tudo na row1 
     $row1->addItens($colDireita); 
 
     $divPrincipal->addItens($row1); // adiciona a row na div principal para ficar tudo no centro
+    //$divPrincipal->addItens($div); // adiciona a row na div principal para ficar tudo no centro
 
     $body->addItens($divPrincipal); // add a div principal no body
 

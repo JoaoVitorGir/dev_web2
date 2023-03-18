@@ -17,6 +17,10 @@
     
 }
 
+*{
+    font-family: "Nunito-padrao",sans-serif;
+}
+
 .lista{
     background-color: royalblue;
 }
@@ -27,7 +31,7 @@
 }
 
 .links-topMenu:hover{
-    color: white;
+    color: gold;
 }
 
 .list-topMenu{
@@ -84,6 +88,9 @@
 
 .col-Direita{
     background-color: var(--dark_primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .lista-Esquerda{
@@ -125,13 +132,16 @@
 
 .li-produtos{
     text-decoration: none;
-    color: gold;
+    font-family: "Graduate", sans-serif;
+    color: white;
+    font-size: 13px;
 }
 
 .li-produtos:hover{
     color: white;
+    font-size: 14px;
     text-shadow: 0 0 10px white,
-                 0 0 50px white,
+                 0 0 25px white,
                  0 0 100px white;
 }
 
@@ -140,4 +150,28 @@
     right: 1em;
     top: 25px;
     cursor: pointer;
+}
+
+.table-Produtos{
+    width: 100%;
+}
+
+.table-Produtos th, .table-Produtos td {
+    border: 1px;
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.table-Produtos tbody{
+    color: grey;
+}
+
+.table-Produtos thead{
+    background-color: var(--extremidades);
+}
+
+
+.table-Produtos tr:nth-child(even){
+    background-color: #191e29be;
 }
