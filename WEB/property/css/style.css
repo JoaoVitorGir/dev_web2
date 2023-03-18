@@ -171,7 +171,6 @@
     background-color: var(--extremidades);
 }
 
-
 .table-Produtos tr:nth-child(even){
     background-color: #191e29be;
 }

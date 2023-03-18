@@ -1,0 +1,82 @@
+create table tbpessoas (
+	id Integer,
+	nome Character varying,
+	cpf character varying
+)
+ALTER TABLE tbpessoas ADD COLUMN dt_nascimento DATE, ADD COLUMN idade INT, ADD COLUMN cep VARCHAR(10), ADD COLUMN bairro VARCHAR(50), ADD COLUMN nome_pai VARCHAR(100), ADD COLUMN nome_mae VARCHAR(100);
+
+select * from tbpessoas
+
+INSERT INTO tbpessoas (id, nome, cpf) VALUES
+    (1, 'João', '111.111.111-11'),
+    (2, 'Maria', '222.222.222-22'),
+    (3, 'José', '333.333.333-33'),
+    (4, 'Ana', '444.444.444-44'),
+    (5, 'Pedro', '555.555.555-55'),
+    (6, 'Carla', '666.666.666-66'),
+    (7, 'Lucas', '777.777.777-77'),
+    (8, 'Mariana', '888.888.888-88'),
+    (9, 'Fernando', '999.999.999-99'),
+    (10, 'Larissa', '000.000.000-00'),
+    (11, 'Carlos', '111.222.333-44'),
+    (12, 'Amanda', '555.444.333-22'),
+    (13, 'Gabriel', '111.333.555-77'),
+    (14, 'Laura', '222.444.666-88'),
+    (15, 'Rafael', '333.555.777-99'),
+    (16, 'Luisa', '777.666.555-44'),
+    (17, 'Thiago', '888.777.666-55'),
+    (18, 'Débora', '333.444.555-66'),
+    (19, 'Vinicius', '666.555.444-77'),
+    (20, 'Bianca', '555.333.222-88'),
+    (21, 'Marcelo', '111.777.888-99'),
+    (22, 'Carolina', '000.555.444-44'),
+    (23, 'Renato', '333.888.777-55'),
+    (24, 'Isabela', '222.666.555-66'),
+    (25, 'Fábio', '111.444.333-77'),
+    (26, 'Camila', '666.777.888-88'),
+    (27, 'Vitor', '444.555.666-99'),
+    (28, 'Letícia', '888.777.666-00'),
+    (29, 'Guilherme', '333.222.111-11'),
+    (30, 'Juliana', '222.111.000-00');
+
+UPDATE tbpessoas SET
+    dt_nascimento = '1990-01-01',
+    idade = 30,
+    cep = '12345-678',
+    bairro = 'Centro',
+    nome_pai = 'José Silva',
+    nome_mae = 'Maria Santos'
+WHERE id BETWEEN 1 AND 15;
+
+UPDATE tbpessoas SET
+    dt_nascimento = '1995-01-01',
+    idade = 26,
+    cep = '54321-876',
+    bairro = 'Vila Nova',
+    nome_pai = 'João Santos',
+    nome_mae = 'Ana Silva'
+WHERE id BETWEEN 16 AND 30;
+
+create table categorias (
+	cod_categoria integer,
+	descricao character varying
+)
+
+select * from tbcategorias
+
+INSERT INTO tbcategorias (cod_categoria, descricao) VALUES
+    (1, 'Eletrônicos'),
+    (2, 'Roupas'),
+    (3, 'Calçados'),
+    (4, 'Acessórios'),
+    (5, 'Livros'),
+    (6, 'Filmes'),
+    (7, 'Música'),
+    (8, 'Esportes'),
+    (9, 'Jogos'),
+    (10, 'Bebidas'),
+    (11, 'Alimentos'),
+    (12, 'Beleza'),
+    (13, 'Casa e Decoração'),
+    (14, 'Automóveis'),
+    (15, 'Brinquedos');

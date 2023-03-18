@@ -2,6 +2,9 @@
     // Inclui a classe de carregamento automático de arquivos
     require("autoload.php");
     
+    //conexao com o banco de dados na tabela pessoas
+    $conect = new ConexaoPG("dev_web2","postgres",123);
+
     // Cria uma instância da classe Head
     $head = new Head("Revoadinha");
 
@@ -28,14 +31,6 @@
     $listaMenu->addItens(new A("#","links-topMenu","Produtos"));
     $listaMenu->addItens(new A("#","links-topMenu","Promoções"));
     $listaMenu->addItens(new A("#","links-topMenu","Usuários")); 
-
-   // $conect = new ConexaoPG("dev_web2","postgres",123);
-
-    //$resposta = $conect->execQuery("select nome from usuario");
-
-    //foreach($resposta as $nomes){
-    //    $lista->addItens(new A("#","links",$nomes));
-    //}
     
     //Adiciona um menu no topo da pagina
     $topMenu = new Menu("topMenu");
@@ -59,27 +54,13 @@
     $menuBar = new Div("menu-Bar");
     $itensColEsquerda = new Listas("ul","lista-Esquerda","lista-ul-menu-Bar"); //lista de itens 
 
-    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","celular")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","televisão")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","eletrodomésticos")); 
-    $itensColEsquerda->addItens(new A("#","li-produtos","intenet")); 
-    
+    $resposta = $conect->execQuery("select descricao from tbcategorias");
+
+    foreach($resposta as $linha){
+        foreach($linha as $item){
+            $itensColEsquerda->addItens(new A("#","li-produtos",$item)); 
+        }
+    }
     
     $menuBar->addItens(new Title("PRODUTOS",2,"title-colEsquerda")); //titulo coluna esquerda
     $menuBar->addItens($itensColEsquerda); //add os itens na culuna
@@ -89,23 +70,20 @@
     
     $table = new Table("table-Produtos");
 
-    $TitleTable = array("ID","Nome","CPF");
-
+    $TitleTable = array("ID","Nome","CPF","nascimento","idade","cep","bairro","nome_pai","nome_mae");
     $table->addArrTitle($TitleTable);
 
-    $linhas1 = array("1","Joao","123.456.789-11");
-    $linhas2 = array("1","Joao","123.456.789-11");
-    $linhas3 = array("1","Joao","123.456.789-11");
-    $linhas4 = array("1","Joao","123.456.789-11");
-    $linhas5 = array("1","Joao","123.456.789-11");
-    $linhas6 = array("1","Joao","123.456.789-11");
-
-    $table->addLinha($linhas1);
-    $table->addLinha($linhas2);
-    $table->addLinha($linhas3);
-    $table->addLinha($linhas4);
-    $table->addLinha($linhas5);
-    $table->addLinha($linhas6);
+    //pesquisa no Postgres as pessoas e adiciona elas na tabela
+    $resposta = $conect->execQuery("select * from tbpessoas");
+    //resposta retorna uma matriz com todos os dados
+    foreach($resposta as $linha){
+        $arrlinha = [];
+        //percorre os dados da quela linha
+        foreach($linha as $celula){
+            array_push($arrlinha,$celula);
+        }
+        $table->addLinha($arrlinha);
+    }
 
     $colDireita->addItens($table->Renderizar());
 
