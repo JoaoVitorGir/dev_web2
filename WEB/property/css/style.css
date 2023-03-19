@@ -1,8 +1,9 @@
 :root{
     --dark_primary : #0e1117;
     --dark_secundary : #181d27;
-    --light_primary : #F1FFF7;
-    --light_secundary : #f1fbf6;
+    --body-fonts-color : #ffffff;
+    --primary-color-table: #191e29be;
+    --primary-fonts-color-table : #838383;
     --extremidades : #0C4B33;
 }
 
@@ -61,7 +62,7 @@
 
 .body{
     margin: 0;
-    background-color: #0e1117;
+    background-color: var(--dark_primary);
     font-family: "Nunito-padrao",sans-serif;
 }
 
@@ -94,13 +95,13 @@
 }
 
 .lista-Esquerda{
-    color: white;
+    color: var(--body-fonts-color);
     list-style: none;
 }
 
 .title-colEsquerda{
     text-align: center;
-    color: white;
+    color: var(--body-fonts-color);
     margin: 0px 0 20px 0;
     font-family: "Graduate",sans-serif;
 }
@@ -133,16 +134,17 @@
 .li-produtos{
     text-decoration: none;
     font-family: "Graduate", sans-serif;
-    color: white;
+    color: var(--body-fonts-color);
     font-size: 13px;
 }
 
 .li-produtos:hover{
-    color: white;
+    color: var(--body-fonts-color);
     font-size: 14px;
-    text-shadow: 0 0 10px white,
-                 0 0 25px white,
-                 0 0 100px white;
+    text-shadow: 0 0 5px #03e9f4,
+                 0 0 25px #03e9f4,
+                 0 0 50px #03e9f4,
+                 0 0 100px #03e9f4;
 }
 
 .color-top-menu{
@@ -154,6 +156,11 @@
 
 .table-Produtos{
     width: 100%;
+    font-size: 13px;
+}
+
+.table-Produtos th{
+    padding: 1em;
 }
 
 .table-Produtos th, .table-Produtos td {
@@ -164,7 +171,7 @@
 }
 
 .table-Produtos tbody{
-    color: grey;
+    color: var(--primary-fonts-color-table);
 }
 
 .table-Produtos thead{
@@ -172,5 +179,5 @@
 }
 
 .table-Produtos tr:nth-child(even){
-    background-color: #191e29be;
+    background-color: var(--primary-color-table);
 }

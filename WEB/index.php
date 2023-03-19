@@ -35,10 +35,14 @@
     //Adiciona um menu no topo da pagina
     $topMenu = new Menu("topMenu");
 
+    //icone para o menu lateral
     $topMenu->addItens(new IconesBoots("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-list list-topMenu\" viewBox=\"0 0 16 16\"> <path fill-rule=\"evenodd\" d=\"M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z\"/></svg>"));
     $topMenu->addItens(new A("#","a-titulo","Revoadinha"));
     $topMenu->addItens($listaMenu);
-    $topMenu->addItens(new IconesBoots('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-brightness-high color-top-menu" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>'));
+    //icone para alternar entre claro e escuro
+    $divIconTema = new Div(null,"icon-dark-light");
+    $divIconTema->addItens(new IconesBoots('<svg onclick=Light_Dark() xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-brightness-high color-top-menu" viewBox="0 0 16 16"><path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/></svg>'));
+    $topMenu->addItens($divIconTema);
 
     // Adiciona a lista à div
     //$div->addItens($lista);
@@ -66,11 +70,13 @@
     $menuBar->addItens($itensColEsquerda); //add os itens na culuna
     $colEsquerda->addItens($menuBar);
 
+// ===============================================================================================
+
     $colDireita->addItens(new Title("PESSOAS",1,"title-colEsquerda")); // titulo da coluna direita
     
     $table = new Table("table-Produtos");
 
-    $TitleTable = array("ID","Nome","CPF","nascimento","idade","cep","bairro","nome_pai","nome_mae");
+    $TitleTable = array("ID","Nome","CPF","Nascimento","Idade","CEP","Bairro","Pai","Mãe");
     $table->addArrTitle($TitleTable);
 
     //pesquisa no Postgres as pessoas e adiciona elas na tabela
@@ -86,14 +92,20 @@
     }
 
     $colDireita->addItens($table->Renderizar());
+    $row2Paginas = new Div("row");
+
+    $row2Paginas->addItens("Página 1");
+    $colDireita->addItens($row2Paginas);
 
     $row1->addItens($colEsquerda); // add tudo na row1 
     $row1->addItens($colDireita); 
 
+// ===============================================================================================
+
     $divPrincipal->addItens($row1); // adiciona a row na div principal para ficar tudo no centro
-    //$divPrincipal->addItens($div); // adiciona a row na div principal para ficar tudo no centro
 
     $body->addItens($divPrincipal); // add a div principal no body
+    
 
     //rodapé da página
     $footer = new Footer("rodape");
@@ -118,6 +130,7 @@
     $html = new Html("pt-br",$head,$body);
     //Adiciona script Boostrap
     $html->addScript("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js","sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN","anonymous");
+    $html->addScript("property/js/functions.js");
     
     echo($html);
     
