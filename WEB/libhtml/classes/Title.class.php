@@ -10,14 +10,17 @@
             $this->value = $value;
         }
 
-        function __toString(){
-            $resultado = "<h".$this->nivelTitle;
+        function Rederizar(){
+            $resultado = "<h{$this->nivelTitle}";
             
+            $resultado .= " class=\"{$this->getClass()}\"";
+           
             if ($this->getId() != null){
                 $resultado .= " id=\"{$this->getId()}\" "; 
             }
-            
-            $resultado .= " class=\"{$this->getClass()}\"> ".$this->value." </h".$this->nivelTitle.">";
+
+            $resultado .= ">";
+            $resultado .= "{$this->value} </h{$this->nivelTitle}>";
 
             return $resultado;
         }

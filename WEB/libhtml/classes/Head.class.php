@@ -11,14 +11,14 @@
             if ($name != null){
                 $NewMeta = $NewMeta." name=\"$name\"";
             }
+            if ($http_equiv != null){
+                $NewMeta = $NewMeta." http-equiv=\"$http_equiv\"";
+            }
             if ($content != null){
                 $NewMeta = $NewMeta." content=\"$content\"";
             }
             if ($charset != null){
                 $NewMeta = $NewMeta." charset=\"$charset\"";
-            }
-            if ($http_equiv != null){
-                $NewMeta = $NewMeta." http-equiv=\"$http_equiv\"";
             }
 
             $this->metas[] = "<meta ".$NewMeta." >";
@@ -27,23 +27,23 @@
         // Adiciona uma nova tag link
         function addlink($rel=null, $href=null, $type=null,$integrity=null,$crossorigin=null){
             $newLink = "";
-            if($rel != null){
-                $newLink = $newLink." rel=\"$rel\"";
-            }
+            
             if($href != null){
-                $newLink = $newLink." href=\"$href\"";
+                $newLink .= "href=\"$href\"";
+            }
+            if($rel != null){
+                $newLink .= "rel=\"$rel\"";
             }
             if($type != null){
-                $newLink = $newLink." type=\"$type\"";
+                $newLink .= "type=\"$type\"";
             }
             if($integrity != null){
-                $newLink .= " integraty=\"$integrity\"";
+                $newLink .= "integrity=\"$integrity\"";
             }
             if($crossorigin != null){
-                $newLink .= " crossorign=\"$crossorigin\"";
+                $newLink .= "crossorigin=\"$crossorigin\"";
             }
-
-
+            
             $this->links[] = "<link ".$newLink.">";
         }
 
@@ -58,10 +58,12 @@
         {
             $resultado = "<head>";
             foreach($this->metas as $itensMeta){
-                $resultado = $resultado. $itensMeta; 
+                $resultado .= $itensMeta; 
             }
+            
             foreach($this->links as $link){
-                $resultado = $resultado. $link;    
+                $resultado .= $link;    
+                
             }
             $resultado = $resultado. "<title>".$this->title."</title>";
             $resultado = $resultado. "</head>";

@@ -11,7 +11,7 @@
             $this->itens[] = $newItem;
         }
 
-        function __toString(){
+        function Renderizar(){
             if ($this->getClass() != null){
                 $resultado = "<nav class=\"{$this->getClass()}\">";
             }else{
@@ -19,7 +19,7 @@
             }
 
             foreach($this->itens as $resItem){
-                $resultado = $resultado.$resItem;
+                $resultado .= $resItem;
             }
             $resultado = $resultado."</nav>";
             

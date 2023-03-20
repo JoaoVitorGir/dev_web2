@@ -11,7 +11,7 @@
             $this->itens[] = $item;
         }
 
-        function __toString(){
+        function Renderizar(){
             $resultado = "<footer ";
             if ($this->getClass() != null){
                 $resultado .= "class=\"{$this->getClass()}\"";

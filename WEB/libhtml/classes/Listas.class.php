@@ -21,7 +21,7 @@
         } 
 
         // Converte a lista para uma string HTML
-        function __toString(){
+        function Renderizar(){
             $resultado = " "; 
             if ($this->tipoLista == "ol" || $this->tipoLista == "ul"){ // Se a lista for ordenada ou não ordenada, percorre o array de valores e cria uma string HTML para cada item
                 foreach($this->value as $retorno){
@@ -60,7 +60,7 @@
                     return "<ul class=\"{$this->getClass()}\" >".$resultado."</ul>";
                 }
             }
-        }
+        }   
     }
 
 ?>

@@ -37,6 +37,7 @@
 
 .list-topMenu{
     cursor: pointer;
+    color: white;
 }
 
 .topMenu{
@@ -44,8 +45,9 @@
     color: white;
     margin: 0;
     padding: 1em;
-    display: flex;
-    align-items: baseline;
+    z-index: 1;
+    position: relative;
+    align-items: center;
 }
 
 .lista-ul {
@@ -85,6 +87,9 @@
 
 .col-Esquerda{
     background-color: var(--dark_secundary);
+    margin-top: 1em !important;
+    margin-bottom: 1em;
+    border-radius: 1em;
 }
 
 .col-Direita{
@@ -98,11 +103,11 @@
     color: var(--body-fonts-color);
     list-style: none;
 }
-
+.title-colDireita,
 .title-colEsquerda{
     text-align: center;
     color: var(--body-fonts-color);
-    margin: 0px 0 20px 0;
+    margin: 20px 0 20px 0;
     font-family: "Graduate",sans-serif;
 }
 
@@ -181,3 +186,4 @@
 .table-Produtos tr:nth-child(even){
     background-color: var(--primary-color-table);
 }
+
