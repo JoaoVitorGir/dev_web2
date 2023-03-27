@@ -2,6 +2,10 @@
     require("autoload.php");
 
 session_start();
+session_unset(); 
+session_destroy();
+
+
 
     $head = new Head("Notícias");
 
@@ -87,9 +91,9 @@ session_start();
     $divCadastro = new Div();
     $formCadastro = new Form(null,"POST","Form-Cadastro");
 
-    $formCadastro->addInput("TEXT","","Título da notícia","Input-Cadastro");
-    $formCadastro->addInput("TEXT","","Descrição","Input-Cadastro");
-    $formCadastro->addInput("TEXT","","URL da imagem","Input-Cadastro");
+    $formCadastro->addInput("TEXT","","Título da notícia","Input-Cadastro","inputTitle");
+    $formCadastro->addInput("TEXT","","Descrição","Input-Cadastro","inputDescricao");
+    $formCadastro->addInput("TEXT","","URL da imagem","Input-Cadastro","inputURL");
     $formCadastro->addInput("submit","adicionar",null,"Input-Cadastro-Enviar");
 
     $divCadastro->addItens($formCadastro->render());

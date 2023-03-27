@@ -16,8 +16,8 @@ class Form {
     $this->method = $method;
   }
 
-  function addInput($type,$value,$placeholder=null,$style=null){
-    $newInput = [$type,$value,$placeholder,$style];
+  function addInput($type,$value,$placeholder=null,$style=null,$name=null){
+    $newInput = [$type,$value,$placeholder,$style,$name];
     $this->input[] = $newInput;
   }
 
@@ -49,7 +49,10 @@ class Form {
       }
 
       if ($inputs[3]){
-        $form .= "class=\"{$inputs[3]}\">";
+        $form .= "class=\"{$inputs[3]}\"";
+      }
+      if ($inputs[4]){
+        $form .= "name=\"{$inputs[3]}\">";
       }else{
         $form .= ">";
       }
