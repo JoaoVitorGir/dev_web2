@@ -6,6 +6,9 @@ class Form {
   private $input_Value;
   private $form_Boby;
   private $method;
+  private $input_placeholder;
+
+  private $input = array();
   
   function __construct($title,$method,$classForm=null) {
     $this->title = $title;
@@ -13,9 +16,9 @@ class Form {
     $this->method = $method;
   }
 
-  function addInput($type,$value){
-    $this->input_Type = $type;
-    $this->input_Value = $value;
+  function addInput($type,$value,$placeholder=null,$style=null){
+    $newInput = [$type,$value,$placeholder,$style];
+    $this->input[] = $newInput;
   }
 
   function addBody($bodyForm){
@@ -28,9 +31,30 @@ class Form {
     }else{
         $form = "<form method=\"{$this->method}\">";
     }
-    $form .= "<h2>{$this->title}</h2>"; 
+    if ($this->title){
+      $form .= "<h2>{$this->title}</h2>";
+    }
+     
     $form .= $this->form_Boby;
-    $form .= "<input type=\"{$this->input_Type}\" value=\"{$this->input_Value}\">";
+
+    foreach($this->input as $inputs){
+      $form .= "<input type=\"{$inputs[0]}\"";
+
+      if ($inputs[1]){
+        $form .= "value=\"{$inputs[1]}\"";
+      }
+
+      if ($inputs[2]){
+        $form .= "placeholder=\"{$inputs[2]}\"";
+      }
+
+      if ($inputs[3]){
+        $form .= "class=\"{$inputs[3]}\">";
+      }else{
+        $form .= ">";
+      }
+    }
+
     $form .= "</form>";
     return $form;
   }

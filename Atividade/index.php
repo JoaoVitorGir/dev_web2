@@ -75,7 +75,35 @@ session_start();
     $divPrincipal->addItens($divNoticia2->Renderizar());
     $divPrincipal->addItens($divNoticia3->Renderizar());
     $divPrincipal->addItens($divNoticia4->Renderizar());
+
+
+    $bootstrap = new bootstrap();
+
+    $divAddNoticia = new Div("Div-Noticias");
+    // $TituloCadastro = new Title("Adicionar notícias",2);
+
+    // $divAddNoticia->addItens($TituloCadastro->Rederizar());
+
+    $divCadastro = new Div();
+    $formCadastro = new Form(null,"POST","Form-Cadastro");
+
+    $formCadastro->addInput("TEXT","","Título da notícia","Input-Cadastro");
+    $formCadastro->addInput("TEXT","","Descrição","Input-Cadastro");
+    $formCadastro->addInput("TEXT","","URL da imagem","Input-Cadastro");
+    $formCadastro->addInput("submit","adicionar",null,"Input-Cadastro-Enviar");
+
+    $divCadastro->addItens($formCadastro->render());
+    $divAddNoticia->addItens($divCadastro->Renderizar());
+    $modal = $bootstrap->Modal("Adicionar Notícias",$divAddNoticia->Renderizar());  
+    
+    
+    $btn = new Button("Adicionar Notícia","Btn-Add-Noticia","button","modal","#staticBackdrop");
+    $body->addItens($btn->Renderizar());
+    $body->addItens($modal);
+    
+
     $body->addItens($divPrincipal->Renderizar());
+    $body->addScript("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js","sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN","anonymous");
 
     $html = new Html("pt-br",$head,$body);
     echo $html;
@@ -87,7 +115,5 @@ session_start();
         // Redireciona o usuário para a página de exibição
         header('Location: http://localhost/dev_web2/Atividade/exibir.php');
     exit;
-
-    
-}
+    }
 ?>
