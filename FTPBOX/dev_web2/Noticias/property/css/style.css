@@ -1,0 +1,126 @@
+@font-face {
+    font-family: "Nunito-padrao";
+    src: url("fonts/Nunito/static/Nunito-Regular.ttf");
+}
+
+*{
+    font-family: "Nunito-padrao",sans-serif;
+}
+
+body{
+    background-color: #262626 !important; 
+}
+
+.Form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Form img{
+    margin-bottom: 10px; /* espaçamento opcional entre a imagem e o input */
+}
+  
+.Form input {
+    background-color: #6600ffdb;
+    border-radius: 1em;
+    color: white;
+    border: none;
+    width: 10em;
+    height: 2em;
+}
+
+.Form h2{
+    text-align: center;
+}
+
+.Div-Img{
+    width: 100px;
+    margin-left: 1em;
+    margin-right: 2em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+} 
+
+.Div-Img img {
+    max-width: 100%;
+    height: auto;
+}
+
+.Div-Principal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.Div-descricao{
+    flex: 1 1 auto;
+    max-width: 600px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 205px;
+    text-align: justify;
+}
+
+.Card-noticias{
+    width: 800px;
+    border: solid;
+    border-width: 1px;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 2em;
+    background-color: white;
+    /* box-shadow: 0 0 10px #6600ffdb,
+                0 0 15px #6600ffdb; */
+}
+
+.Form-Content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.Data-end{
+    text-align: end;
+    width: 100%;
+}
+
+.Form-Cadastro{
+    display: grid;
+}
+
+.Div-Noticias{
+    text-align: center;
+    width: 500px;
+    padding: 1em;
+    color: white;
+}
+
+.Input-Cadastro{
+    margin: 0.5em;
+    border: none;
+    border-radius: 0.6em;
+    height: 1.7em;
+}
+
+.Input-Cadastro:focus-visible{
+    outline: outset;
+    outline-color: green;
+}
+
+.Input-Cadastro-Enviar{
+    border-radius: 1em;
+    width: 100px;
+    margin: 1em;
+    text-align: center;
+    cursor: pointer;
+    background-color: green;
+    color: white;
+    border: none;
+}
+
+.Btn-Add-Noticia{
+    background-color: green;
+}

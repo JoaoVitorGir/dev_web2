@@ -1,0 +1,189 @@
+:root{
+    --dark_primary : #0e1117;
+    --dark_secundary : #181d27;
+    --body-fonts-color : #ffffff;
+    --primary-color-table: #191e29be;
+    --primary-fonts-color-table : #838383;
+    --extremidades : #0C4B33;
+}
+
+@font-face {
+    font-family: "Nunito-padrao";
+    src: url("fonts/Nunito/static/Nunito-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Graduate";
+    src: url("fonts/Graduate/Graduate-Regular.ttf");
+    
+}
+
+*{
+    font-family: "Nunito-padrao",sans-serif;
+}
+
+.lista{
+    background-color: royalblue;
+}
+
+.links-topMenu{
+    text-decoration: none;
+    color: #d8d8d8;
+}
+
+.links-topMenu:hover{
+    color: gold;
+}
+
+.list-topMenu{
+    cursor: pointer;
+    color: white;
+}
+
+.topMenu{
+    background-color: var(--extremidades);
+    color: white;
+    margin: 0;
+    padding: 1em;
+    z-index: 1;
+    position: relative;
+    align-items: center;
+}
+
+.lista-ul {
+    display: flex;
+    margin: 0;
+    list-style: none;
+    align-items: baseline;
+    margin-left: 2em;
+}
+
+.lista-menu-itens{
+    margin: 0em 1em 0em 1em;
+}
+
+.body{
+    margin: 0;
+    background-color: var(--dark_primary);
+    font-family: "Nunito-padrao",sans-serif;
+}
+
+.a-titulo{
+    font-size: 2em;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 4em;
+    font-family: "Graduate",sans-serif;
+    color: gold;
+}
+
+.Img-Icon-List{
+    color: white;
+}
+
+.div-principal{
+    color: gold;
+}
+
+.col-Esquerda{
+    background-color: var(--dark_secundary);
+    margin-top: 1em !important;
+    margin-bottom: 1em;
+    border-radius: 1em;
+}
+
+.col-Direita{
+    background-color: var(--dark_primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.lista-Esquerda{
+    color: var(--body-fonts-color);
+    list-style: none;
+}
+.title-colDireita,
+.title-colEsquerda{
+    text-align: center;
+    color: var(--body-fonts-color);
+    margin: 20px 0 20px 0;
+    font-family: "Graduate",sans-serif;
+}
+
+.lista-ul-menu-Bar{
+    margin: 0;
+    padding-left: 1.6em;
+}
+
+.rodape{
+    background-color: var(--extremidades);
+    color: white;
+}
+
+.lista-footer{
+    list-style: none;
+    display: flex;
+    justify-content: space-evenly; 
+    font-style: italic;
+    font-size: 0.8em;
+    padding: 2em;
+    margin: 0;
+}
+
+.menu-Bar{
+    margin: 1em 0 1em 0;
+    padding-bottom: 1em;
+}
+
+.li-produtos{
+    text-decoration: none;
+    font-family: "Graduate", sans-serif;
+    color: var(--body-fonts-color);
+    font-size: 13px;
+}
+
+.li-produtos:hover{
+    color: var(--body-fonts-color);
+    font-size: 14px;
+    text-shadow: 0 0 5px #03e9f4,
+                 0 0 25px #03e9f4,
+                 0 0 50px #03e9f4,
+                 0 0 100px #03e9f4;
+}
+
+.color-top-menu{
+    position: absolute;
+    right: 1em;
+    top: 25px;
+    cursor: pointer;
+}
+
+.table-Produtos{
+    width: 100%;
+    font-size: 13px;
+}
+
+.table-Produtos th{
+    padding: 1em;
+}
+
+.table-Produtos th, .table-Produtos td {
+    border: 1px;
+    text-align: center;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.table-Produtos tbody{
+    color: var(--primary-fonts-color-table);
+}
+
+.table-Produtos thead{
+    background-color: var(--extremidades);
+}
+
+.table-Produtos tr:nth-child(even){
+    background-color: var(--primary-color-table);
+}
+
