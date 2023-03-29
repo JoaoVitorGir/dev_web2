@@ -1,6 +1,6 @@
 <?php
 
-    class bootstrap {
+    class Bootstrap {
 
         function Modal($title,$modalBody){
            

@@ -2,7 +2,12 @@
     // Inclui a classe de carregamento automático de arquivos
     require("autoload.php");
     //conexao com o banco de dados na tabela pessoas
-    $conect = new ConexaoPG("dev_web2","postgres",123);
+    //echo "O endereço IP do servidor é: " . $_SERVER['SERVER_ADDR'];
+    if ($_SERVER['SERVER_ADDR'] = "10.3.80.196"){
+        $conect = new ConexaoPG("aluno_1023071","aluno_1023071","Bio-C2020","10.3.80.196");
+    }else{
+        $conect = new ConexaoPG("dev_web2","postgres",123);
+    }
     // Cria uma instância da classe Head
     $head = new Head("Revoadinha");
 
@@ -31,7 +36,7 @@
     
     //Adiciona um menu no topo da pagina
     $topMenu = new Menu("nav topMenu");
-    $bootstrap = new bootstrap();
+    $bootstrap = new Bootstrap();
 
     //icone para o menu lateral
     $iconeBtn = $bootstrap->IconeSvg("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-list list-topMenu\" viewBox=\"0 0 16 16\"> <path fill-rule=\"evenodd\" d=\"M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z\"/></svg>");
@@ -59,7 +64,7 @@
     $menuBar = new Div("menu-Bar");
     $itensColEsquerda = new Listas("ul","lista-Esquerda","lista-ul-menu-Bar"); //lista de itens 
 
-    $resposta = $conect->execQuery("select descricao from tbcategorias");
+    $resposta = $conect->execQuery("select descricao from categorias");
     foreach($resposta as $linha){
         foreach($linha as $item){
             $itensColEsquerda->addItens(new A("#","li-produtos",$item)); 
