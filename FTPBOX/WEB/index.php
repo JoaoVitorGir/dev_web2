@@ -1,15 +1,15 @@
 <?php
     // Inclui a classe de carregamento automático de arquivos
     require("autoload.php");
-    //conexao com o banco de dados na tabela pessoas
-    //echo "O endereço IP do servidor é: " . $_SERVER['SERVER_ADDR'];
-    if ($_SERVER['SERVER_ADDR'] = "10.3.80.196"){
-        $conect = new ConexaoPG("aluno_1023071","aluno_1023071","Bio-C2020","10.3.80.196");
+   // echo "aqui host = ".$_SERVER['SERVER_ADDR'];
+    $senha = trim(file_get_contents('configuracao/config.txt'));
+    if ($_SERVER['SERVER_ADDR'] == "10.3.80.196"){
+        $conect = new ConexaoPG("aluno_1023071","aluno_1023071",$senha,"10.3.80.196");
     }else{
         $conect = new ConexaoPG("dev_web2","postgres",123);
     }
     // Cria uma instância da classe Head
-    $head = new Head("Revoadinha");
+    $head = new Head("WEB SITE");
 
     // Adiciona meta tags ao Head
     $head->addMetas(null,null,"UTF-8");
@@ -20,6 +20,7 @@
 
     // Cria uma instância da classe Body
     $body = new Body("body");
+    $DivConteudoPagina = new Div("conteudo-pagina","DivConteudoPagina");
     $body->addScript("property/js/functions.js");
     $body->addScript("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js","sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN","anonymous");
 
@@ -40,13 +41,13 @@
 
     //icone para o menu lateral
     $iconeBtn = $bootstrap->IconeSvg("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" fill=\"currentColor\" class=\"bi bi-list list-topMenu\" viewBox=\"0 0 16 16\"> <path fill-rule=\"evenodd\" d=\"M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z\"/></svg>");
-    $btn = new Button($iconeBtn,"btn","button","modal","#staticBackdrop");
+    $btn = new Button($iconeBtn,"btn","button","modal","#ModalInformacoes");
     $topMenu->addItens($btn->Renderizar());
 
-    $modal = $bootstrap->Modal("Modal Teste","conteudo do modal");    
-    $body->addItens($modal);
+    $modalInformacoes = $bootstrap->Modal("Modal de informações","ModalInformacoes","conteudo do modal");    
+    $DivConteudoPagina->addItens($modalInformacoes);
 
-    $topMenu->addItens(new A("#","a-titulo","Revoadinha"));
+    $topMenu->addItens(new A("#","a-titulo","WEB SITE"));
     $topMenu->addItens($listaMenu->Renderizar());
     //icone para alternar entre claro e escuro
     $divIconTema = new Div(null,"icon-dark-light");
@@ -54,7 +55,7 @@
     $topMenu->addItens($divIconTema->Renderizar());
 
     // Adiciona a div ao body
-    $body->addItens($topMenu->Renderizar());
+    $DivConteudoPagina->addItens($topMenu->Renderizar());
 
     // Cria uma instância da classe Div
     $divPrincipal = new Div("container div-principal");
@@ -64,50 +65,85 @@
     $menuBar = new Div("menu-Bar");
     $itensColEsquerda = new Listas("ul","lista-Esquerda","lista-ul-menu-Bar"); //lista de itens 
 
-    $resposta = $conect->execQuery("select descricao from categorias");
+    // $resposta = $conect->execQuery("select descricao from categorias");
+    $resposta = $conect->execQuery("select id,descricao from menuhome");
     foreach($resposta as $linha){
-        foreach($linha as $item){
-            $itensColEsquerda->addItens(new A("#","li-produtos",$item)); 
-        }
+        $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}","li-produtos",$linha['descricao'])); 
     }
     
-    $titleMenuBar = new Title("PRODUTOS",2,"title-colEsquerda");
+    $titleMenuBar = new Title("LISTAS",2,"title-colEsquerda");
     $menuBar->addItens($titleMenuBar->Rederizar()); //titulo coluna esquerda
     $menuBar->addItens($itensColEsquerda->Renderizar()); //add os itens na culuna
     $colEsquerda->addItens($menuBar->Renderizar());
-    $titleColDireita = new Title("PESSOAS",1,"title-colDireita");
-    $colDireita->addItens($titleColDireita->Rederizar()); // titulo da coluna direita
     
-    $table = new Table("table-Produtos");
-    $TitleTable = array("ID","Nome","CPF","Nascimento","Idade","CEP","Bairro","Pai","Mãe");
-    $table->addArrTitle($TitleTable);
+    
+    if (isset($_GET['id']) && isset($_GET['titulo'])){
 
-    //pesquisa no Postgres as pessoas e adiciona elas na tabela
-    $resposta = $conect->execQuery("select * from tbpessoas");
-    //resposta retorna uma matriz com todos os dados
-    foreach($resposta as $linha){
-        $arrlinha = [];
-        //percorre os dados da quela linha
-        foreach($linha as $celula){
-            array_push($arrlinha,$celula);
+        $divCentertTabela = new Div("div-center-table");
+
+        // adiciona o titulo da tabela de acordo com o que a pessoa clicou
+        $titleColDireita = new Title($_GET['titulo'],3,"title-colDireita");
+        $divCentertTabela->addItens($titleColDireita->Rederizar()); // titulo da coluna direita
+
+        $table = new Table("table-Produtos");
+        // $TitleTable = array("ID","Nome","CPF","Nascimento","Idade","CEP","Bairro","Pai","Mãe");
+        $SQLSelect = new MontaSQL("menuhome");
+        $SQLSelect->addParametros("id = {$_GET['id']}");
+
+        $resposta = $conect->execQuery($SQLSelect->getSQL());
+
+        $Campos = $resposta[0]['campos'];
+        $arrTitleTable = explode(',',trim($Campos,'{}'));
+        
+        $table->addArrTitle($arrTitleTable);
+
+        $SQLSelect = new MontaSQL($resposta[0]['tabela'],"select",$arrTitleTable);
+        //$SQLSelect->addParametros(null,"id",5,11);
+        $SQLSelect->addParametros(null,"id");
+        
+        $resposta = $conect->execQuery($SQLSelect->getSQL());
+        //resposta retorna uma matriz com todos os dados
+        foreach($resposta as $linha){
+            $arrlinha = [];
+            //percorre os dados da quela linha
+            foreach($linha as $celula){
+
+                $tipo = gettype($celula);
+                //echo "Tipo da célula: $tipo\n";
+                if (gettype($celula) == "boolean"){
+                    if ($celula == false){
+                        array_push($arrlinha,"False");
+                    }else{
+                        array_push($arrlinha,"True");
+                    }
+
+                }else{
+                    array_push($arrlinha,$celula);
+                }
+            }
+            $table->addLinha($arrlinha);
         }
-        $table->addLinha($arrlinha);
-    }
 
-    $colDireita->addItens($table->Renderizar());
-    $row2Paginas = new Div("row");
-    $row2Paginas->addItens("Página 1");
-    $colDireita->addItens($row2Paginas->Renderizar());
+       
+        $divCentertTabela->addItens($table->Renderizar());
+        
+        $colDireita->addItens($divCentertTabela->Renderizar());
+
+        $row2Paginas = new Div("row");
+        $row2Paginas->addItens("Página 1");
+        $colDireita->addItens($row2Paginas->Renderizar());
+    }
+    
 
     $row1->addItens($colEsquerda->Renderizar()); // add tudo na row1 
     $row1->addItens($colDireita->Renderizar()); 
     $divPrincipal->addItens($row1->Renderizar()); // adiciona a row na div principal para ficar tudo no centro
 
-    $body->addItens($divPrincipal->Renderizar()); // add a div principal no body
+    $DivConteudoPagina->addItens($divPrincipal->Renderizar()); // add a div principal no body
     
 
     //rodapé da página
-    $footer = new Footer("rodape");
+    $footer = new Footer("rodape","Rodape");
     $containerFooter = new Div("container");
     $divInformacoes = new Div();
     $itensFooter = new Listas("ul","","lista-footer"); // lista de itens do footer
@@ -121,10 +157,12 @@
     $containerFooter->addItens($divInformacoes->Renderizar()); //add ao container dentro do footer
 
     $footer->addItens($containerFooter->Renderizar());
-    $body->addItens($footer->Renderizar()); //add o footer no body
 
+    //$DivConteudoPagina->addItens($footer->Renderizar());
+    $body->addItens($DivConteudoPagina->Renderizar());
+    $body->addItens($footer->Renderizar());
     // Cria uma instância da classe Html e adiciona, head e o body criados anteriormente
-    $html = new Html("pt-br",$head,$body);
+    $html = new Html("pt-br",$head,$body,"html");
     //Adiciona script Boostrap
     
     echo($html);

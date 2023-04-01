@@ -1,4 +1,4 @@
-create table tbpessoas (
+create table pessoas (
 	id integer,
     nome character varying COLLATE pg_catalog."default",
     cpf character varying COLLATE pg_catalog."default",
@@ -10,9 +10,9 @@ create table tbpessoas (
     nome_mae character varying(100) COLLATE pg_catalog."default"
 )
 
-select * from tbpessoas
+select * from pessoas
 
-INSERT INTO tbpessoas (id, nome, cpf, dt_nascimento, idade, cep, bairro, nome_pai, nome_mae) VALUES
+INSERT INTO pessoas (id, nome, cpf, dt_nascimento, idade, cep, bairro, nome_pai, nome_mae) VALUES
 (1, 'João da Silva', '123.456.789-00', '2000-01-01', 23, '12345-678', 'Centro', 'José da Silva', 'Maria Oliveira'),
 (2, 'Maria Oliveira', '987.654.321-00', '1995-05-10', 28, '54321-876', 'Praia Grande', 'Pedro Oliveira', 'Ana Santos'),
 (3, 'Pedro Oliveira', '456.123.789-00', '1980-07-22', 41, '98765-432', 'Jardim das Flores', 'Carlos Oliveira', 'Lucia Silva'),
@@ -45,9 +45,9 @@ create table categorias (
 	descricao character varying
 )
 
-select * from tbcategorias
+select * from categorias
 
-INSERT INTO tbcategorias (cod_categoria, descricao) VALUES
+INSERT INTO categorias (cod_categoria, descricao) VALUES
   (1, 'Moda Feminina'),
   (2, 'Moda Masculina'),
   (3, 'Calçados'),
@@ -73,3 +73,176 @@ INSERT INTO tbcategorias (cod_categoria, descricao) VALUES
   (23, 'Instrumentos Musicais'),
   (24, 'Artesanato'),
   (25, 'Produtos para Casa e Jardim');
+
+
+-------
+ultima atulização:
+-------
+
+create table menuhome (
+	id integer,
+	descricao character varying,
+	tabela character varying,
+	campos text[],
+	select_table text
+)
+
+select * from menuhome
+
+INSERT INTO menuhome (id, descricao, tabela, campos, select_table)
+VALUES 
+(1, 'Pessoas', 'pessoas', ARRAY['ID','NOME','CPF','IDADE'], 'SELECT ID,NOME,CPF,IDADE FROM pessoas'),
+(2, 'Produtos', 'produtos', ARRAY['ID','NOME','UNIDADE','ESTOQUE'], 'SELECT ID,NOME,UNIDADE,ESTOQUE FROM produtos'),
+(3, 'Funcionários', 'funcionarios', ARRAY['ID','NOME','SALARIO','CARGO'], 'SELECT ID,NOME,SALARIO,CARGO FROM funcionarios'),
+(4, 'Clientes', 'clientes', ARRAY['ID','NOME','EMAIL','TELEFONE'], 'SELECT ID,NOME,EMAIL,TELEFONE FROM clientes'),
+(5, 'Vendas', 'vendas', ARRAY['ID','PRODUTO','QUANTIDADE','DATA_VENDA'], 'SELECT ID,PRODUTO,QUANTIDADE,DATA_VENDA FROM vendas'),
+(6, 'Fornecedores', 'fornecedores', ARRAY['ID','NOME','CNPJ','TELEFONE'], 'SELECT ID,NOME,CNPJ,TELEFONE FROM fornecedores'),
+(7, 'Estoque', 'estoque', ARRAY['ID','PRODUTO','QUANTIDADE','UNIDADE'], 'SELECT ID,PRODUTO,QUANTIDADE,UNIDADE FROM estoque'),
+(8, 'Pedidos', 'pedidos', ARRAY['ID','CLIENTE','DATA_PEDIDO','VALOR_TOTAL'], 'SELECT ID,CLIENTE,DATA_PEDIDO,VALOR_TOTAL FROM pedidos'),
+(9, 'Contas', 'contas', ARRAY['ID','DESCRICAO','VALOR','VENCIMENTO'], 'SELECT ID,DESCRICAO,VALOR,VENCIMENTO FROM contas');
+
+
+select * from pessoas
+select * from produtos
+
+
+CREATE TABLE produtos (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  unidade VARCHAR(20) NOT NULL,
+  estoque BOOLEAN NOT NULL DEFAULT false
+);
+
+INSERT INTO produtos (nome, unidade, estoque) VALUES
+('Produto 1', 'UN', true),
+('Produto 2', 'KG', true),
+('Produto 3', 'UN', false),
+('Produto 4', 'UN', true),
+('Produto 5', 'KG', false),
+('Produto 6', 'UN', true),
+('Produto 7', 'KG', true),
+('Produto 8', 'UN', false),
+('Produto 9', 'UN', true),
+('Produto 10', 'KG', false);
+
+
+
+CREATE TABLE funcionarios (
+    ID INTEGER NOT NULL,
+    NOME VARCHAR(50) NOT NULL,
+    SALARIO NUMERIC(10,2) NOT NULL,
+    CARGO VARCHAR(50) NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE clientes (
+    ID INTEGER NOT NULL,
+    NOME VARCHAR(50) NOT NULL,
+    EMAIL VARCHAR(50) NOT NULL,
+    TELEFONE VARCHAR(15) NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE vendas (
+    ID INTEGER NOT NULL,
+    PRODUTO VARCHAR(50) NOT NULL,
+    QUANTIDADE INTEGER NOT NULL,
+    DATA_VENDA DATE NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE fornecedores (
+    ID INTEGER NOT NULL,
+    NOME VARCHAR(50) NOT NULL,
+    CNPJ VARCHAR(18) NOT NULL,
+    TELEFONE VARCHAR(15) NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE estoque (
+    ID INTEGER NOT NULL,
+    PRODUTO VARCHAR(50) NOT NULL,
+    QUANTIDADE INTEGER NOT NULL,
+    UNIDADE VARCHAR(10) NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE pedidos (
+    ID INTEGER NOT NULL,
+    CLIENTE VARCHAR(50) NOT NULL,
+    DATA_PEDIDO DATE NOT NULL,
+    VALOR_TOTAL NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+
+CREATE TABLE contas (
+    ID INTEGER NOT NULL,
+    DESCRICAO VARCHAR(50) NOT NULL,
+    VALOR NUMERIC(10,2) NOT NULL,
+    VENCIMENTO DATE NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+-- INSERT para a tabela "funcionarios" com 20 linhas
+INSERT INTO funcionarios (ID, NOME, SALARIO, CARGO)
+SELECT
+g.id,
+CONCAT('Funcionário ', g.id),
+(g.id * 500) + 2000,
+CONCAT('Cargo ', g.id)
+FROM generate_series(1, 20) g(id);
+
+-- INSERT para a tabela "clientes" com 10 linhas
+INSERT INTO clientes (ID, NOME, EMAIL, TELEFONE)
+SELECT
+g.id,
+CONCAT('Cliente ', g.id),
+CONCAT('cliente', g.id, '@gmail.com'),
+CONCAT('5555-', g.id, g.id, g.id, g.id)
+FROM generate_series(1, 10) g(id);
+
+-- INSERT para a tabela "vendas" com 15 linhas
+INSERT INTO vendas (ID, PRODUTO, QUANTIDADE, DATA_VENDA)
+SELECT
+g.id,
+CONCAT('Produto ', g.id),
+(g.id * 2),
+CURRENT_DATE - (g.id || ' days')::interval
+FROM generate_series(1, 15) g(id);
+
+-- INSERT para a tabela "fornecedores" com 8 linhas
+INSERT INTO fornecedores (ID, NOME, CNPJ, TELEFONE)
+SELECT
+g.id,
+CONCAT('Fornecedor ', g.id),
+CONCAT('00.000.000/0000-', g.id),
+CONCAT('4444-', g.id, g.id, g.id, g.id)
+FROM generate_series(1, 8) g(id);
+
+-- INSERT para a tabela "estoque" com 12 linhas
+INSERT INTO estoque (ID, PRODUTO, QUANTIDADE, UNIDADE)
+SELECT
+g.id,
+CONCAT('Produto ', g.id),
+(g.id * 5),
+'UN'
+FROM generate_series(1, 12) g(id);
+
+-- INSERT para a tabela "pedidos" com 5 linhas
+INSERT INTO pedidos (ID, CLIENTE, DATA_PEDIDO, VALOR_TOTAL)
+SELECT
+g.id,
+CONCAT('Cliente ', g.id),
+CURRENT_DATE - (g.id || ' days')::interval,
+(g.id * 1000) + 500
+FROM generate_series(1, 5) g(id);
+
+-- INSERT para a tabela "contas" com 7 linhas
+INSERT INTO contas (ID, DESCRICAO, VALOR, VENCIMENTO)
+SELECT
+g.id,
+CONCAT('Conta ', g.id),
+(g.id * 500) + 200,
+CURRENT_DATE + (g.id || ' days')::interval
+FROM generate_series(1, 7) g(id);

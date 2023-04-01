@@ -22,6 +22,10 @@
     font-family: "Nunito-padrao",sans-serif;
 }
 
+.conteudo-pagina{
+    position: relative;
+}
+
 .lista{
     background-color: royalblue;
 }
@@ -62,10 +66,11 @@
     margin: 0em 1em 0em 1em;
 }
 
-.body{
+.body, .html{
     margin: 0;
     background-color: var(--dark_primary);
     font-family: "Nunito-padrao",sans-serif;
+    height: 100%;
 }
 
 .a-titulo{
@@ -114,11 +119,24 @@
 .lista-ul-menu-Bar{
     margin: 0;
     padding-left: 1.6em;
+    transition: 0.5s ease;
+}
+
+.lista-ul-menu-Bar:hover li a{
+    color: gold;
+}
+
+.lista-ul-menu-Bar:hover li a:not(:hover){
+    color:white;
+    opacity: 0.4;
+    filter: blur(0.5px);
 }
 
 .rodape{
     background-color: var(--extremidades);
     color: white;
+    position: absolute;
+    width: 100%;
 }
 
 .lista-footer{
@@ -144,13 +162,13 @@
 }
 
 .li-produtos:hover{
-    color: var(--body-fonts-color);
+    /* color: var(--body-fonts-color); */
     font-size: 14px;
-    text-shadow: 0 0 5px #03e9f4,
+    /* text-shadow: 0 0 5px #03e9f4,
                  0 0 25px #03e9f4,
                  0 0 50px #03e9f4,
-                 0 0 100px #03e9f4;
-}
+                 0 0 100px #03e9f4;*/
+} 
 
 .color-top-menu{
     position: absolute;
@@ -187,3 +205,7 @@
     background-color: var(--primary-color-table);
 }
 
+.div-center-table{
+    width: 100%;
+    padding: 0.4em;
+}

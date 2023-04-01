@@ -3,6 +3,7 @@
         private $href;
         private $target;
         private $value;
+        private $tags = [];
  
         
         function __construct($href, $class, $value, $id = null, $target = null)
@@ -13,6 +14,11 @@
             $this->value = $value;
 
             parent::__construct($id,$class);
+        }
+
+        function addTags($data_bs_toggle=null,$data_bs_target=null){
+            $data_bs_target ? $this->tags[] = " data-bs-target={$data_bs_target}" : null;
+            $data_bs_toggle ? $this->tags[] = " data-bs-toggle={$data_bs_toggle}" : null;
         }
 
         function __toString()
@@ -28,6 +34,11 @@
             // Adiciona o atributo 'target' caso ele tenha sido definido
             if ($this->target != null) {
                 $resultado .= " target=\"{$this->target}\"";
+            }
+
+            // Adiciona as tags caso o usuario tenha passado mais algumas além das padrões
+            foreach($this->tags as $tag){
+                $resultado .= $tag;
             }
 
             // Adiciona o valor do link à tag <a>

@@ -21,3 +21,17 @@ function Light_Dark(){
     }
     dark = !dark;
 }
+
+
+function calculaAlturaRodape(){
+    const rodape = document.getElementById("Rodape");
+    const alturaRodape = rodape.offsetHeight;
+    const margemRodape = parseFloat(getComputedStyle(rodape).marginBottom);
+    return alturaRodape + margemRodape;
+}
+
+window.addEventListener("load", function(){
+    const alturaRodape = calculaAlturaRodape();
+    const divprincipal = document.getElementById("DivConteudoPagina");
+    divprincipal.style.minHeight = `calc(100% - ${alturaRodape}px)`
+})

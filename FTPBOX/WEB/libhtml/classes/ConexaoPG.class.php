@@ -13,7 +13,8 @@
                 echo 'Erro ao conectar com o PostgreSQL: ' . $e->getMessage();
             }
         }
-
+ 
+        
 
         public function execQuery($sql, $params = null) {
             try {

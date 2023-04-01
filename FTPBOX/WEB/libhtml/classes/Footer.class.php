@@ -3,8 +3,8 @@
     class Footer extends ObjPrincipal{
         private $itens = [];
 
-        function __construct($class=null){
-            parent::__construct(null,$class);
+        function __construct($class=null,$id=null){
+            parent::__construct($id,$class);
         }
 
         function addItens($item){
@@ -15,6 +15,10 @@
             $resultado = "<footer ";
             if ($this->getClass() != null){
                 $resultado .= "class=\"{$this->getClass()}\"";
+            }
+            
+            if ($this->getId() != null){
+                $resultado .= " id=\"{$this->getId()}\"";
             }
 
             $resultado .= ">";

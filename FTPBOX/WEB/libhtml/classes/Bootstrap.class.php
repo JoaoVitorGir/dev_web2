@@ -2,13 +2,13 @@
 
     class Bootstrap {
 
-        function Modal($title,$modalBody){
+        function Modal($title,$nameModal,$modalBody){
            
-            $divModal = new Div("modal fade","staticBackdrop","static","false","-1","staticBackdropLabel","true");
+            $divModal = new Div("modal fade",$nameModal,"static","false","-1","{$nameModal}Label","true");
             $divModalDialog = New Div("modal-dialog");
             $divModalContent = New Div("modal-content");
             $divModalHead = New Div("modal-header");
-            $H1Modal = New Title($title,1,"modal-title fs-5","staticBackdropLabel");
+            $H1Modal = New Title($title,1,"modal-title fs-5","{$nameModal}Label");
             $btnExitModal = new Button(null,"btn-close","button",null,null,"modal",null,"Close");
             $divModalBody = New Div("modal-body");
 
