@@ -2,7 +2,7 @@
     class MontaSQL{
         private $SQL;
 
-        private function MontaSelect($tabela,$campos){
+        private function MontaSelect($tabela,$campos=null,$count=null){
             if ($campos){
                 $PreSQL = "select ";
                 $ultimoCampo = end($campos);
@@ -16,23 +16,30 @@
                 }
                 $PreSQL .= " from {$tabela}";   
             }else{
-                $PreSQL = "select * from {$tabela}"; 
+                if ($count){
+                    $PreSQL = "select count({$count}) from {$tabela}"; 
+                    
+                }else{
+                    $PreSQL = "select * from {$tabela}"; 
+                }
             }
             return $PreSQL;
         }
 
-        function __construct($tabela,$metodo="select",$campos=null){
-            if ($metodo == "select"){
-                $this->SQL = $this->MontaSelect($tabela,$campos);
-            }
-        }
+        // function __construct($tabela,$metodo="select",$campos=null,$count=null){
+        //     if ($metodo == "select"){
+        //         $this->SQL = $this->MontaSelect($tabela,$campos,$count);
+        //     }
+        // }
 
         function addJoins($joins){
             $this->SQL .= $joins;
         }
 
-        function setSQL($tabela,$campos){
-            $this->SQL = $this->MontaSelect($tabela,$campos);
+        function setSQL($tabela,$metodo="select",$campos=null,$count=null){
+            if ($metodo == "select"){
+                $this->SQL = $this->MontaSelect($tabela,$campos,$count);
+            }
         }
 
         function addParametros($where=null,$orderBy=null,$offSet=null,$limit=null){

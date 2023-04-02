@@ -5,7 +5,6 @@
 
         public function __construct($dbname, $dbuser, $dbpass, $host="localhost") {
             $dsn = "pgsql:host=$host;dbname=$dbname;user=$dbuser;password=$dbpass";
-            // echo $dsn;
             try {
                 $this->pdo = new PDO($dsn);
                 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

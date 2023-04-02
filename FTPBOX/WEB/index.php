@@ -68,7 +68,7 @@
     // $resposta = $conect->execQuery("select descricao from categorias");
     $resposta = $conect->execQuery("select id,descricao from menuhome");
     foreach($resposta as $linha){
-        $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}","li-produtos",$linha['descricao'])); 
+        $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}&NrPagina=1","li-produtos",$linha['descricao'])); 
     }
     
     $titleMenuBar = new Title("LISTAS",2,"title-colEsquerda");
@@ -87,20 +87,26 @@
 
         $table = new Table("table-Produtos");
         // $TitleTable = array("ID","Nome","CPF","Nascimento","Idade","CEP","Bairro","Pai","Mãe");
-        $SQLSelect = new MontaSQL("menuhome");
+        $SQLSelect = new MontaSQL();
+        $SQLSelect->setSQL("menuhome");
         $SQLSelect->addParametros("id = {$_GET['id']}");
-
+        //echo $SQLSelect->getSQL();
         $resposta = $conect->execQuery($SQLSelect->getSQL());
 
         $Campos = $resposta[0]['campos'];
         $arrTitleTable = explode(',',trim($Campos,'{}'));
-        
         $table->addArrTitle($arrTitleTable);
 
-        $SQLSelect = new MontaSQL($resposta[0]['tabela'],"select",$arrTitleTable);
+        $SQLSelect->setSQL($resposta[0]['tabela'],"select",$arrTitleTable);
+        $TabelaSQL = $resposta[0]['tabela'];
+
         //$SQLSelect->addParametros(null,"id",5,11);
-        $SQLSelect->addParametros(null,"id");
+        //Quantas linhas por pagina devem a parecer
+        $itensPorPagina = 5;
+        $offSet = ($_GET['NrPagina'] - 1) * $itensPorPagina;
         
+        $SQLSelect->addParametros(null,"id",$offSet,$itensPorPagina);
+
         $resposta = $conect->execQuery($SQLSelect->getSQL());
         //resposta retorna uma matriz com todos os dados
         foreach($resposta as $linha){
@@ -116,7 +122,6 @@
                     }else{
                         array_push($arrlinha,"True");
                     }
-
                 }else{
                     array_push($arrlinha,$celula);
                 }
@@ -124,13 +129,27 @@
             $table->addLinha($arrlinha);
         }
 
-       
         $divCentertTabela->addItens($table->Renderizar());
-        
         $colDireita->addItens($divCentertTabela->Renderizar());
 
         $row2Paginas = new Div("row");
-        $row2Paginas->addItens("Página 1");
+        $nav = new Nav();
+        $ListaDePagina = new Listas("ul","page-item","pagination");
+
+        $SQLSelectNroLinhas = new MontaSQL();
+        $SQLSelectNroLinhas->setSQL($TabelaSQL,"select",null,"*");
+        $NrLinhasTabela = $conect->execQuery($SQLSelectNroLinhas->getSQL());
+
+        //adiciona na ancora os parametros que já existem na url
+        $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}";
+
+        if ($NrLinhasTabela[0]['count'] >= 5){
+            for ($QtdPag=0; $QtdPag < ceil($NrLinhasTabela[0]['count'] / $itensPorPagina); $QtdPag++) { 
+                $ListaDePagina->addItens(new A($parametrosAtuais."&NrPagina=".($QtdPag+1),"page-link",$QtdPag+1));
+            }
+        }
+         $row2Paginas->addItens($ListaDePagina->Renderizar());
+        // $row2Paginas->addItens("Página 1");
         $colDireita->addItens($row2Paginas->Renderizar());
     }
     
@@ -139,8 +158,7 @@
     $row1->addItens($colDireita->Renderizar()); 
     $divPrincipal->addItens($row1->Renderizar()); // adiciona a row na div principal para ficar tudo no centro
 
-    $DivConteudoPagina->addItens($divPrincipal->Renderizar()); // add a div principal no body
-    
+    $DivConteudoPagina->addItens($divPrincipal->Renderizar()); // add a div principal no body 
 
     //rodapé da página
     $footer = new Footer("rodape","Rodape");
@@ -150,8 +168,8 @@
 
     //itens
     $itensFooter->addItens("João Vitor Girardi"); 
-    $itensFooter->addItens("Revoadinha .Ltda &copy;");
-    $itensFooter->addItens("Revoadinha@Revoa.com");
+    $itensFooter->addItens("web site .Ltda &copy;");
+    $itensFooter->addItens("website@website.com");
 
     $divInformacoes->addItens($itensFooter->Renderizar()); //add os itens para a divi de informações
     $containerFooter->addItens($divInformacoes->Renderizar()); //add ao container dentro do footer
