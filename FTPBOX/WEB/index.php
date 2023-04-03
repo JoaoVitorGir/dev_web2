@@ -44,7 +44,19 @@
     $btn = new Button($iconeBtn,"btn","button","modal","#ModalInformacoes");
     $topMenu->addItens($btn->Renderizar());
 
-    $modalInformacoes = $bootstrap->Modal("Modal de informações","ModalInformacoes","conteudo do modal");    
+    $ListaDeTabelas = new Listas("ul","lista-Esquerda",""); //lista de itens 
+
+    // $resposta = $conect->execQuery("select descricao from categorias");
+
+    $SQLSelect = new MontaSQL();
+    $SQLSelect->setSelect("menuhome",array("id","descricao"));
+    $SQLSelect->addParametros(null,"descricao");
+    $resposta = $conect->execQuery($SQLSelect->getSQL());
+    foreach($resposta as $linha){
+        $ListaDeTabelas->addItens(new A("?id={$linha['id']}","",$linha['descricao'])); 
+    }
+
+    $modalInformacoes = $bootstrap->Modal("Inserir Registros","ModalInformacoes",$ListaDeTabelas->Renderizar());    
     $DivConteudoPagina->addItens($modalInformacoes);
 
     $topMenu->addItens(new A("#","a-titulo","WEB SITE"));
@@ -66,7 +78,10 @@
     $itensColEsquerda = new Listas("ul","lista-Esquerda","lista-ul-menu-Bar"); //lista de itens 
 
     // $resposta = $conect->execQuery("select descricao from categorias");
-    $resposta = $conect->execQuery("select id,descricao from menuhome");
+    $SQLSelect = new MontaSQL();
+    $SQLSelect->setSelect("menuhome",array("id","descricao"));
+    $SQLSelect->addParametros(null,"descricao");
+    $resposta = $conect->execQuery($SQLSelect->getSQL());;
     foreach($resposta as $linha){
         $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}&NrPagina=1","li-produtos",$linha['descricao'])); 
     }
@@ -87,8 +102,7 @@
 
         $table = new Table("table-Produtos");
         // $TitleTable = array("ID","Nome","CPF","Nascimento","Idade","CEP","Bairro","Pai","Mãe");
-        $SQLSelect = new MontaSQL();
-        $SQLSelect->setSQL("menuhome");
+        $SQLSelect->setSelect("menuhome");
         $SQLSelect->addParametros("id = {$_GET['id']}");
         //echo $SQLSelect->getSQL();
         $resposta = $conect->execQuery($SQLSelect->getSQL());
@@ -97,7 +111,7 @@
         $arrTitleTable = explode(',',trim($Campos,'{}'));
         $table->addArrTitle($arrTitleTable);
 
-        $SQLSelect->setSQL($resposta[0]['tabela'],"select",$arrTitleTable);
+        $SQLSelect->setSelect($resposta[0]['tabela'],$arrTitleTable);
         $TabelaSQL = $resposta[0]['tabela'];
 
         //$SQLSelect->addParametros(null,"id",5,11);
@@ -137,7 +151,7 @@
         $ListaDePagina = new Listas("ul","page-item","pagination");
 
         $SQLSelectNroLinhas = new MontaSQL();
-        $SQLSelectNroLinhas->setSQL($TabelaSQL,"select",null,"*");
+        $SQLSelectNroLinhas->setSelect($TabelaSQL,null,"*");
         $NrLinhasTabela = $conect->execQuery($SQLSelectNroLinhas->getSQL());
 
         //adiciona na ancora os parametros que já existem na url
@@ -153,6 +167,8 @@
         $colDireita->addItens($row2Paginas->Renderizar());
     }
     
+
+    $teste = new MontaSQL();
 
     $row1->addItens($colEsquerda->Renderizar()); // add tudo na row1 
     $row1->addItens($colDireita->Renderizar()); 

@@ -217,4 +217,5 @@
 .page-link{
     background-color: inherit !important;
     color: var(--body-fonts-color) !important;
+    padding: 0px 5px 0px 5px !important;
 }

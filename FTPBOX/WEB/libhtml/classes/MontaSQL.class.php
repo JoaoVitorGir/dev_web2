@@ -26,20 +26,36 @@
             return $PreSQL;
         }
 
-        // function __construct($tabela,$metodo="select",$campos=null,$count=null){
-        //     if ($metodo == "select"){
-        //         $this->SQL = $this->MontaSelect($tabela,$campos,$count);
-        //     }
-        // }
+        private function MontaInsert($tabela,$campos,$valores){
+            $preInsert = "INSERT INTO {$tabela} (";
+
+            foreach($campos as $campo){
+                $preInsert .= $campo.", ";
+            }
+            
+            $preInsert = substr($preInsert,0,-2);
+            $preInsert .= ") VALUES (";
+
+            foreach($valores as $valor){
+                $preInsert .= "'".$valor."', ";
+            }
+
+            $preInsert = substr($preInsert,0,-2);
+            $preInsert .= ")";
+
+            return $preInsert;
+        }
 
         function addJoins($joins){
             $this->SQL .= $joins;
         }
 
-        function setSQL($tabela,$metodo="select",$campos=null,$count=null){
-            if ($metodo == "select"){
-                $this->SQL = $this->MontaSelect($tabela,$campos,$count);
-            }
+        function setSelect($tabela,$campos=null,$count=null){
+            $this->SQL = $this->MontaSelect($tabela,$campos,$count);
+        }
+
+        function setInsert($tabela,$campos=[],$valores=[]){
+            $this->MontaInsert($tabela,$campos,$valores);
         }
 
         function addParametros($where=null,$orderBy=null,$offSet=null,$limit=null){
