@@ -46,6 +46,10 @@
             return $preInsert;
         }
 
+        private function MontaDelete($tabela,$condicao){
+            return "DELETE FROM {$tabela} where {$condicao}";
+        }
+
         function addJoins($joins){
             $this->SQL .= $joins;
         }
@@ -55,7 +59,11 @@
         }
 
         function setInsert($tabela,$campos=[],$valores=[]){
-            $this->MontaInsert($tabela,$campos,$valores);
+            $this->SQL = $this->MontaInsert($tabela,$campos,$valores);
+        }
+
+        function SetDelete($tabela,$condicao){
+            $this->SQL = $this->MontaDelete($tabela,$condicao);
         }
 
         function addParametros($where=null,$orderBy=null,$offSet=null,$limit=null){

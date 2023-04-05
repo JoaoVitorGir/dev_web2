@@ -219,3 +219,22 @@
     color: var(--body-fonts-color) !important;
     padding: 0px 5px 0px 5px !important;
 }
+
+.a-excluir-linha-tabela{
+    text-decoration: none;
+    color: red;
+}
+
+.a-editar-linha-tabela{
+    text-decoration: none;
+    color: darkgrey;
+}
+
+.icones-tabela{
+    display: flex;
+}
+
+.icones-tabela-class{
+    margin: 0 9px 0 9px;
+}
+

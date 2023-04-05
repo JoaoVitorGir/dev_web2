@@ -79,11 +79,11 @@
 
     // $resposta = $conect->execQuery("select descricao from categorias");
     $SQLSelect = new MontaSQL();
-    $SQLSelect->setSelect("menuhome",array("id","descricao"));
+    $SQLSelect->setSelect("menuhome",array("id","descricao","tabela"));
     $SQLSelect->addParametros(null,"descricao");
     $resposta = $conect->execQuery($SQLSelect->getSQL());;
     foreach($resposta as $linha){
-        $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}&NrPagina=1","li-produtos",$linha['descricao'])); 
+        $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}&tabela={$linha['tabela']}&NrPagina=1","li-produtos",$linha['descricao'])); 
     }
     
     $titleMenuBar = new Title("LISTAS",2,"title-colEsquerda");
@@ -91,6 +91,12 @@
     $menuBar->addItens($itensColEsquerda->Renderizar()); //add os itens na culuna
     $colEsquerda->addItens($menuBar->Renderizar());
     
+    if (isset($_GET["excluirLinha"])){
+        $SQLDeleteLinha = new MontaSQL();
+        $SQLDeleteLinha->SetDelete($_GET['tabela'],"id={$_GET['excluirLinha']}");
+        
+        $conect->execDelete($SQLDeleteLinha->getSQL());
+    }
     
     if (isset($_GET['id']) && isset($_GET['titulo'])){
 
@@ -108,10 +114,12 @@
         $resposta = $conect->execQuery($SQLSelect->getSQL());
 
         $Campos = $resposta[0]['campos'];
+        
         $arrTitleTable = explode(',',trim($Campos,'{}'));
+        array_unshift($arrTitleTable,"");
         $table->addArrTitle($arrTitleTable);
 
-        $SQLSelect->setSelect($resposta[0]['tabela'],$arrTitleTable);
+        $SQLSelect->setSelect($resposta[0]['tabela'],explode(',',trim($Campos,'{}')));
         $TabelaSQL = $resposta[0]['tabela'];
 
         //$SQLSelect->addParametros(null,"id",5,11);
@@ -126,7 +134,19 @@
         foreach($resposta as $linha){
             $arrlinha = [];
             //percorre os dados da quela linha
-            foreach($linha as $celula){
+            // $icoExcluir->IconeSvg('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>');
+            $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}&NrPagina={$_GET['NrPagina']}";
+            $AncoraExcluir = new A("{$parametrosAtuais}&excluirLinha={$linha['id']}","a-excluir-linha-tabela",
+                                   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash icones-tabela-class" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>');
+            $AncoraEditar = new A("#","a-editar-linha-tabela",'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square icones-tabela-class" viewBox="0 0 16 16">
+                                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                                </svg>');
+            $divIcones = new Div("icones-tabela");
+            $divIcones->addItens($AncoraExcluir);
+            $divIcones->addItens($AncoraEditar);
+            array_push($arrlinha,$divIcones->Renderizar());
+            foreach($linha as $key =>$celula){
 
                 $tipo = gettype($celula);
                 //echo "Tipo da célula: $tipo\n";
@@ -137,7 +157,12 @@
                         array_push($arrlinha,"True");
                     }
                 }else{
-                    array_push($arrlinha,$celula);
+                    if ($key != "id"){
+                        $input = new Input('text','teste',$celula);
+                        array_push($arrlinha,$input->Renderizar());
+                    }else{
+                        array_push($arrlinha,$celula);
+                    }
                 }
             }
             $table->addLinha($arrlinha);
@@ -155,7 +180,7 @@
         $NrLinhasTabela = $conect->execQuery($SQLSelectNroLinhas->getSQL());
 
         //adiciona na ancora os parametros que já existem na url
-        $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}";
+        $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}";
 
         if ($NrLinhasTabela[0]['count'] >= 5){
             for ($QtdPag=0; $QtdPag < ceil($NrLinhasTabela[0]['count'] / $itensPorPagina); $QtdPag++) { 

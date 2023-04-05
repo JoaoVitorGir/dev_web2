@@ -3,7 +3,7 @@
     class ConexaoPG {
         private $pdo;
 
-        public function __construct($dbname, $dbuser, $dbpass, $host="localhost") {
+        function __construct($dbname, $dbuser, $dbpass, $host="localhost") {
             $dsn = "pgsql:host=$host;dbname=$dbname;user=$dbuser;password=$dbpass";
             try {
                 $this->pdo = new PDO($dsn);
@@ -13,9 +13,14 @@
             }
         }
  
+
+        function execDelete($SQL){
+            $stmt = $this->pdo->prepare($SQL);
+            $stmt->execute();
+        }
         
 
-        public function execQuery($sql, $params = null) {
+        function execQuery($sql, $params = null) {
             try {
                 $stmt = $this->pdo->prepare($sql);
                 $stmt->execute($params);
