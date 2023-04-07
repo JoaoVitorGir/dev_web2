@@ -7,6 +7,8 @@
         private $dataBsDismiss;
         private $Conteudo;
         private $ariaLabel;
+        private $Eventos;
+
 
         function __construct($conteudo=null,$class=null,$type=null,$dataBsToggle=null,$dataBsTarget=null,$dataBsDismiss=null,$id=null,$ariaLabel=null){
             parent::__construct($id,$class);
@@ -16,6 +18,15 @@
             $this->dataBsDismiss = $dataBsDismiss;
             $this->Conteudo = $conteudo;
             $this->ariaLabel = $ariaLabel;
+        }
+
+        function addEventos($onClick=null){
+            $Events = "";
+            if ($onClick){
+                $Events .= " onClick=\"{$onClick}\" ";
+            }
+
+            $this->Eventos = $Events;
         }
 
         function Renderizar(){
@@ -28,6 +39,10 @@
             $resultado .= $this->dataBsTarget ? "data-bs-target=\"{$this->dataBsTarget}\"" : "";
             $resultado .= $this->dataBsDismiss ? "data-bs-dismiss=\"{$this->dataBsDismiss}\"" : "";
             $resultado .= $this->ariaLabel ? "aria-label=\"{$this->ariaLabel}\"" : "";
+
+            if ($this->Eventos){
+                $resultado .= $this->Eventos;
+            }
 
             $resultado .= ">";
 

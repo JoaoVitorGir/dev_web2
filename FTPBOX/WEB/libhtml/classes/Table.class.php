@@ -24,11 +24,11 @@
         }
 
         function Renderizar(){
-            $tr = $this->classTr != null ? "<tr class=\"{$this->classTr}\">" : "<tr>";
             $td = $this->classTd != null ? "<td class=\"{$this->classTd}\">" : "<td>";
 
             $resposta = "<table class=\"{$this->getClass()}\">";
-            $resposta .="<thead class=\"{$this->classThead}\"> ".$tr;
+            $resposta .="<thead class=\"{$this->classThead}\"> ". "<tr class=\"{$this->classTr}\">";
+
             foreach($this->thTitle as $titulos){
                 $resposta .= "<th>{$titulos}</th>";
             }
@@ -36,7 +36,7 @@
             $resposta .= "</tr> </thead>";
             
             for ($I=0; $I < count($this->tdLinhas); $I++) { 
-                $resposta .= $tr;
+                $resposta .= $this->classTr != null ? "<tr class=\"{$this->classTr}\" id=\"Linha-{$I}\">" : "<tr id=\"Linha-{$I}\">";;
                 foreach($this->tdLinhas[$I] as $itensLinha){
                     $resposta .= $td."{$itensLinha}</td>";
                 }

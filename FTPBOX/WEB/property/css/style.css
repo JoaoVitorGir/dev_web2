@@ -235,6 +235,23 @@
 }
 
 .icones-tabela-class{
-    margin: 0 9px 0 9px;
+    margin: 0 5px 0 5px;
 }
 
+.table-input{
+    background-color: inherit;
+    color: inherit;
+    border: none;   
+    text-align: center;
+}
+
+.table-input:focus-visible {
+    outline: none;
+    color: white;
+}
+
+.icone-salvaAlteracoes{
+    visibility: hidden;
+    color: lawngreen;
+    margin: 0 5px 0 5px;    
+}

@@ -23,7 +23,7 @@
     $DivConteudoPagina = new Div("conteudo-pagina","DivConteudoPagina");
     $body->addScript("property/js/functions.js");
     $body->addScript("https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js","sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN","anonymous");
-
+    $body->addScript("https://code.jquery.com/jquery-3.6.0.min.js");
     // Cria uma instância da classe Listas
     $listaMenu = new Listas("ul","lista-menu-itens","lista-ul");
 
@@ -97,6 +97,10 @@
         
         $conect->execDelete($SQLDeleteLinha->getSQL());
     }
+
+    if (isset($_POST["5-nome"])){
+        echo $_POST['5-nome'];
+    }
     
     if (isset($_GET['id']) && isset($_GET['titulo'])){
 
@@ -131,21 +135,40 @@
 
         $resposta = $conect->execQuery($SQLSelect->getSQL());
         //resposta retorna uma matriz com todos os dados
+
+        $nrLinha = 0;
         foreach($resposta as $linha){
             $arrlinha = [];
             //percorre os dados da quela linha
-            // $icoExcluir->IconeSvg('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>');
             $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}&NrPagina={$_GET['NrPagina']}";
             $AncoraExcluir = new A("{$parametrosAtuais}&excluirLinha={$linha['id']}","a-excluir-linha-tabela",
                                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash icones-tabela-class" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>');
-            $AncoraEditar = new A("#","a-editar-linha-tabela",'<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square icones-tabela-class" viewBox="0 0 16 16">
-                                          <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                          <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            $AncoraEditar = new A("#","a-editar-linha-tabela",
+                                '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square icones-tabela-class" viewBox="0 0 16 16">
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                                 </svg>');
+            
+            // so vai aparecer quando a pessoa selecionar a opçao editar
+            $BtnSalvarAlteracao = new Button(
+                                         '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check-all" viewBox="0 0 16 16">
+                                         <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
+                                         </svg>',
+                                         "icone-salvaAlteracoes",
+                                         "POST",null,null,null,"Salvar-{$linha['id']}"
+            );
+            
+            // $AncoraEditar->addEventos("LiberaInputsTabela('Input{$linha['id']}','Salvar-{$linha['id']}')");
+            $AncoraEditar->addEventos("LiberaInputsTabela('Linha-{$nrLinha}','Salvar-{$linha['id']}')");
+            $nrLinha++;
+
             $divIcones = new Div("icones-tabela");
             $divIcones->addItens($AncoraExcluir);
             $divIcones->addItens($AncoraEditar);
+            $divIcones->addItens($BtnSalvarAlteracao->Renderizar());
             array_push($arrlinha,$divIcones->Renderizar());
+
+            //prenche os valores da linha da tabela
             foreach($linha as $key =>$celula){
 
                 $tipo = gettype($celula);
@@ -158,17 +181,24 @@
                     }
                 }else{
                     if ($key != "id"){
-                        $input = new Input('text','teste',$celula);
+                        $input = new Input("text","Input{$linha['id']}",$linha['id']."-".$key,"table-input",$celula,null,true);
+                        $input->addEventos(null,"ValidaAlteracaoInput('{$linha['id']}-{$key}')");
                         array_push($arrlinha,$input->Renderizar());
                     }else{
                         array_push($arrlinha,$celula);
                     }
                 }
             }
+
             $table->addLinha($arrlinha);
         }
 
-        $divCentertTabela->addItens($table->Renderizar());
+        $form = new Form("POST");
+
+        $form->AddItemForm($table->Renderizar());
+
+        $divCentertTabela->addItens($form->Renderizar());
+
         $colDireita->addItens($divCentertTabela->Renderizar());
 
         $row2Paginas = new Div("row");

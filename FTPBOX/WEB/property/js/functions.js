@@ -1,4 +1,5 @@
 var dark = true;
+let ArrayValInputs = [];
 
 function Light_Dark(){
     if (dark){
@@ -35,3 +36,74 @@ window.addEventListener("load", function(){
     const divprincipal = document.getElementById("DivConteudoPagina");
     divprincipal.style.minHeight = `calc(100% - ${alturaRodape}px)`
 })
+
+function LiberaInputsTabela(idLinha,idSalvar = String){
+    const LinhaTabela = document.getElementById(idLinha);
+    var InputsDentroLaLinha = LinhaTabela.querySelectorAll('input');
+    const IconeSalvar = document.getElementById(idSalvar); 
+
+    for (var i = 0; i < InputsDentroLaLinha.length; i++) {  
+
+        if (InputsDentroLaLinha[i].disabled){
+            // quando abilitar para edicao coloca uma linha azul em baixo do campo
+            IconeSalvar.style.visibility = "visible";
+            InputsDentroLaLinha[i].disabled=false;
+            InputsDentroLaLinha[i].style.borderBottom = "1px solid rgb(31, 85, 203)"
+        }else{
+
+            //antes de desabilitar a edicao valida se o texto foi alterado para adicionar o texto antigo já que a pessoa não salvou as alterações
+            for (let index = 0; index < ArrayValInputs.length; index++) {
+                const element = ArrayValInputs[index];
+
+                if (element[InputsDentroLaLinha[i].id] != undefined){
+                    //add o valor antigo para o input
+                    InputsDentroLaLinha[i].value = element[InputsDentroLaLinha[i].id];
+                }
+            }
+
+            // quando desabilitar remove a linha azul
+            IconeSalvar.style.visibility = "hidden";
+            InputsDentroLaLinha[i].disabled=true;
+            InputsDentroLaLinha[i].style.borderBottom = "none"
+        }
+
+        //adiciona os valores do input atual em um array para comparar se tem alguma alteraçao na hr de salvar
+        ArrayValInputs.push({ [InputsDentroLaLinha[i].id]: InputsDentroLaLinha[i].value});
+    }
+
+
+    // LinhaTabela.forEach(function(Input){
+    //     if (Input.disabled){
+    //         // quando abilitar para edicao coloca uma linha azul em baixo do campo
+    //         IconeSalvar.style.visibility = "visible";
+    //         Input.disabled=false;
+    //         Input.style.borderBottom = "1px solid rgb(31, 85, 203)"
+    //     }else{
+
+    //         //antes de desabilitar a edicao valida se o texto foi alterado para adicionar o texto antigo já que a pessoa não salvou as alterações
+    //         for (let index = 0; index < ArrayValInputs.length; index++) {
+    //             const element = ArrayValInputs[index];
+
+    //             if (element[Input.id] != undefined){
+    //                 //add o valor antigo para o input
+    //                 Input.value = element[Input.id];
+    //             }
+    //         }
+
+    //         // quando desabilitar remove a linha azul
+    //         IconeSalvar.style.visibility = "hidden";
+    //         Input.disabled=true;
+    //         Input.style.borderBottom = "none"
+    //     }
+
+    //     //adiciona os valores do input atual em um array para comparar se tem alguma alteraçao na hr de salvar
+    //     ArrayValInputs.push({ [Input.id]: Input.value});
+
+    // });
+}
+
+function ValidaAlteracaoInput(idInput){
+    const Input = document.getElementById(idInput);
+        //quando a pessoa digitar alguma coisa dentro do input vai colocar uma linha vermelha
+        Input.style.borderBottom = "1px solid red"
+}
