@@ -223,11 +223,13 @@
 .a-excluir-linha-tabela{
     text-decoration: none;
     color: red;
+    padding-top: 2px;
 }
 
 .a-editar-linha-tabela{
     text-decoration: none;
     color: darkgrey;
+    padding-top: 2px;
 }
 
 .icones-tabela{
@@ -252,6 +254,10 @@
 
 .icone-salvaAlteracoes{
     visibility: hidden;
+    margin: 0px !important;
+    padding: 0px;
     color: lawngreen;
-    margin: 0 5px 0 5px;    
+    margin: 0 5px 0 5px;   
+    background-color: inherit;
+    border: none; 
 }

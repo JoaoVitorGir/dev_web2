@@ -1,6 +1,9 @@
 <?php
     // Inclui a classe de carregamento automático de arquivos
     require("autoload.php");
+
+    session_start();
+
    // echo "aqui host = ".$_SERVER['SERVER_ADDR'];
     $senha = trim(file_get_contents('configuracao/config.txt'));
     if ($_SERVER['SERVER_ADDR'] == "10.3.80.196"){
@@ -15,6 +18,7 @@
     $head->addMetas(null,null,"UTF-8");
     $head->addMetas(null,"IE=edge",null,"X-UA-Compatible");
     $head->addMetas("viewport","width=device-width, initial-scale=1.0");
+    $head->addlink("icon","property/css/Icons/rota-66.png","img/png");
     $head->addlink("stylesheet","property/css/style.css"); // Adiciona um link para o arquivo CSS de estilo
     $head->addlink("stylesheet","https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css",null,"sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD","anonymous");
 
@@ -83,7 +87,7 @@
     $SQLSelect->addParametros(null,"descricao");
     $resposta = $conect->execQuery($SQLSelect->getSQL());;
     foreach($resposta as $linha){
-        $itensColEsquerda->addItens(new A("?id={$linha['id']}&titulo={$linha['descricao']}&tabela={$linha['tabela']}&NrPagina=1","li-produtos",$linha['descricao'])); 
+        $itensColEsquerda->addItens(new A("?idLista={$linha['id']}&titulo={$linha['descricao']}&tabela={$linha['tabela']}&NrPagina=1","li-produtos",$linha['descricao'])); 
     }
     
     $titleMenuBar = new Title("LISTAS",2,"title-colEsquerda");
@@ -93,16 +97,40 @@
     
     if (isset($_GET["excluirLinha"])){
         $SQLDeleteLinha = new MontaSQL();
-        $SQLDeleteLinha->SetDelete($_GET['tabela'],"id={$_GET['excluirLinha']}");
+        $SQLDeleteLinha->SetDelete($_GET['tabela']);
+        $SQLDeleteLinha->addParametros("id={$_GET['excluirLinha']}");
         
-        $conect->execDelete($SQLDeleteLinha->getSQL());
+        $conect->execDeleteUpdate($SQLDeleteLinha->getSQL());
     }
 
-    if (isset($_POST["5-nome"])){
-        echo $_POST['5-nome'];
+    if (isset($_GET['AlteraLinha'])){
+        if (isset($_SESSION[$_GET['AlteraLinha']])){
+            // print_r( $_SESSION[$_GET['AlteraLinha']]);
+            $campos = [];
+            $Newvalores = [];
+            foreach($_SESSION[$_GET['AlteraLinha']] as $name){
+                //so vai conter aqui partir do momento em que a pessoa clicar em salvar alterações
+                if (isset($_POST[$name])){
+                    // remove tudo so deixa o texto remove até os espaços mas mantei os numeros
+                    //echo $_POST[$name]." = ".preg_replace("/[^a-zA-Z0-9]/","",$name)." || ";
+                    //remove os numeros
+                    //echo $_POST[$name]." = ".preg_replace("/[^a-zA-Z]/","",$name)." || ";
+
+                    $campos[] = preg_replace("/[^a-zA-Z]/","",$name);
+                    $Newvalores[] = $_POST[$name];
+
+                    $SQLUpdate = new MontaSQL();
+                    $SQLUpdate->SetUpdate($_GET["tabela"],$campos,$Newvalores);
+                    $SQLUpdate->addParametros("id = {$_GET["idLinha"]}");
+                    echo "SQLUPDATE = ".$SQLUpdate->getSQL();
+                    $conect->execDeleteUpdate($SQLUpdate->getSQL());
+                }
+            }
+        }
     }
     
-    if (isset($_GET['id']) && isset($_GET['titulo'])){
+    
+    if (isset($_GET['idLista']) && isset($_GET['titulo'])){
 
         $divCentertTabela = new Div("div-center-table");
 
@@ -113,7 +141,7 @@
         $table = new Table("table-Produtos");
         // $TitleTable = array("ID","Nome","CPF","Nascimento","Idade","CEP","Bairro","Pai","Mãe");
         $SQLSelect->setSelect("menuhome");
-        $SQLSelect->addParametros("id = {$_GET['id']}");
+        $SQLSelect->addParametros("id = {$_GET['idLista']}");
         //echo $SQLSelect->getSQL();
         $resposta = $conect->execQuery($SQLSelect->getSQL());
 
@@ -121,6 +149,7 @@
         
         $arrTitleTable = explode(',',trim($Campos,'{}'));
         array_unshift($arrTitleTable,"");
+
         $table->addArrTitle($arrTitleTable);
 
         $SQLSelect->setSelect($resposta[0]['tabela'],explode(',',trim($Campos,'{}')));
@@ -139,11 +168,13 @@
         $nrLinha = 0;
         foreach($resposta as $linha){
             $arrlinha = [];
-            //percorre os dados da quela linha
-            $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}&NrPagina={$_GET['NrPagina']}";
+            
+            $parametrosAtuais = "?idLista={$_GET['idLista']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}&NrPagina={$_GET['NrPagina']}";
+
             $AncoraExcluir = new A("{$parametrosAtuais}&excluirLinha={$linha['id']}","a-excluir-linha-tabela",
                                    '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash icones-tabela-class" viewBox="0 0 16 16"><path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/><path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/></svg>');
-            $AncoraEditar = new A("#","a-editar-linha-tabela",
+            
+            $AncoraEditar = new A("{$parametrosAtuais}&AlteraLinha=Linha-{$nrLinha}&idLinha={$linha['id']}","a-editar-linha-tabela",
                                 '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square icones-tabela-class" viewBox="0 0 16 16">
                                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                                 <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -155,12 +186,14 @@
                                          <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
                                          </svg>',
                                          "icone-salvaAlteracoes",
-                                         "POST",null,null,null,"Salvar-{$linha['id']}"
+                                         "submit",null,null,null,"Salvar-{$linha['id']}"
             );
             
+            $BtnSalvarAlteracao->addEventos("AddLinhaEditadaURL('Ancora{$nrLinha}')");
+
             // $AncoraEditar->addEventos("LiberaInputsTabela('Input{$linha['id']}','Salvar-{$linha['id']}')");
             $AncoraEditar->addEventos("LiberaInputsTabela('Linha-{$nrLinha}','Salvar-{$linha['id']}')");
-            $nrLinha++;
+            
 
             $divIcones = new Div("icones-tabela");
             $divIcones->addItens($AncoraExcluir);
@@ -168,6 +201,7 @@
             $divIcones->addItens($BtnSalvarAlteracao->Renderizar());
             array_push($arrlinha,$divIcones->Renderizar());
 
+            $nameInputs = [];
             //prenche os valores da linha da tabela
             foreach($linha as $key =>$celula){
 
@@ -181,16 +215,24 @@
                     }
                 }else{
                     if ($key != "id"){
-                        $input = new Input("text","Input{$linha['id']}",$linha['id']."-".$key,"table-input",$celula,null,true);
+                        $input = new Input("text","{$linha['id']}-{$key}","Input{$linha['id']}","table-input",$celula,null,true);
                         $input->addEventos(null,"ValidaAlteracaoInput('{$linha['id']}-{$key}')");
                         array_push($arrlinha,$input->Renderizar());
+                        //so adiciona aqui os valores do Input o id vai ser passado dirto na URL
+                        $nameInputs[] = "{$linha['id']}-{$key}";
                     }else{
                         array_push($arrlinha,$celula);
                     }
                 }
+
+               // $nameInputs[] = "{$linha['id']}-{$key}";
+
             }
 
+            $_SESSION["Linha-{$nrLinha}"] = $nameInputs;
+
             $table->addLinha($arrlinha);
+            $nrLinha++;
         }
 
         $form = new Form("POST");
@@ -210,7 +252,7 @@
         $NrLinhasTabela = $conect->execQuery($SQLSelectNroLinhas->getSQL());
 
         //adiciona na ancora os parametros que já existem na url
-        $parametrosAtuais = "?id={$_GET['id']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}";
+        $parametrosAtuais = "?idLista={$_GET['idLista']}&titulo={$_GET['titulo']}&tabela={$_GET['tabela']}";
 
         if ($NrLinhasTabela[0]['count'] >= 5){
             for ($QtdPag=0; $QtdPag < ceil($NrLinhasTabela[0]['count'] / $itensPorPagina); $QtdPag++) { 

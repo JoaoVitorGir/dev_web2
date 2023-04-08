@@ -1,6 +1,7 @@
 <?php
     class MontaSQL{
         private $SQL;
+        private $UpdateObrigaCondicao = false; //obriga a ter condicao ao fazer um update
 
         private function MontaSelect($tabela,$campos=null,$count=null){
             if ($campos){
@@ -26,6 +27,21 @@
             return $PreSQL;
         }
 
+        private function MontaUpdate($tabela,$campos=[],$valores=[]){
+            $preUpdate = "UPDATE {$tabela} SET ";
+
+            if (count($campos) == count($valores)){
+                for ($I=0; $I < count($campos); $I++) { 
+                    $preUpdate .= $campos[$I]." = '".$valores[$I]."' ";
+                }
+            }else{
+                $preUpdate = "";
+                echo "ERRO: Qtd de campos e de valores não são iguais";
+            }
+
+            return $preUpdate;
+        }
+
         private function MontaInsert($tabela,$campos,$valores){
             $preInsert = "INSERT INTO {$tabela} (";
 
@@ -46,8 +62,8 @@
             return $preInsert;
         }
 
-        private function MontaDelete($tabela,$condicao){
-            return "DELETE FROM {$tabela} where {$condicao}";
+        private function MontaDelete($tabela){
+            return "DELETE FROM {$tabela} ";
         }
 
         function addJoins($joins){
@@ -62,10 +78,16 @@
             $this->SQL = $this->MontaInsert($tabela,$campos,$valores);
         }
 
-        function SetDelete($tabela,$condicao){
-            $this->SQL = $this->MontaDelete($tabela,$condicao);
+        function SetDelete($tabela){
+            $this->SQL = $this->MontaDelete($tabela);
         }
 
+        function SetUpdate($tabela,$campos=[],$valores=[]){
+            $this->SQL = $this->MontaUpdate($tabela,$campos,$valores);
+            $this->UpdateObrigaCondicao = true;
+        }
+
+        //se quiser adicionar algum parametro ou condição adiciona um SetUpdate e dps chama a fucão para a dicionar a condicao
         function addParametros($where=null,$orderBy=null,$offSet=null,$limit=null){
             $preParametros = "";
 
@@ -75,10 +97,16 @@
             $limit ? $preParametros .= " limit ".$limit : null;
 
             $this->SQL .= $preParametros;
+
+            $this->UpdateObrigaCondicao = false;
         }
 
         function getSQL(){
-            return $this->SQL;
+            if ($this->UpdateObrigaCondicao){
+                echo "Updates precisam ter condicao para serem alterado adicione alguma condicao";
+            }else{
+                return $this->SQL;
+            }
         }
     }
 ?>

@@ -14,11 +14,11 @@
         }
  
 
-        function execDelete($SQL){
+        function execDeleteUpdate($SQL){
             $stmt = $this->pdo->prepare($SQL);
             $stmt->execute();
         }
-        
+
 
         function execQuery($sql, $params = null) {
             try {
