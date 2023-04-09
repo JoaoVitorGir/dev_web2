@@ -118,13 +118,16 @@
 
                     $campos[] = preg_replace("/[^a-zA-Z]/","",$name);
                     $Newvalores[] = $_POST[$name];
-
-                    $SQLUpdate = new MontaSQL();
-                    $SQLUpdate->SetUpdate($_GET["tabela"],$campos,$Newvalores);
-                    $SQLUpdate->addParametros("id = {$_GET["idLinha"]}");
-                    echo "SQLUPDATE = ".$SQLUpdate->getSQL();
-                    $conect->execDeleteUpdate($SQLUpdate->getSQL());
                 }
+            }
+
+            $SQLUpdate = new MontaSQL();
+            $SQLUpdate->SetUpdate($_GET["tabela"],$campos,$Newvalores);
+            $SQLUpdate->addParametros("id = {$_GET["idLinha"]}");
+            //echo "SQLUPDATE = ".$SQLUpdate->getSQL();
+
+            if ($SQLUpdate->getSQL() != ""){
+                $conect->execDeleteUpdate($SQLUpdate->getSQL());
             }
         }
     }
@@ -186,15 +189,11 @@
                                          <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
                                          </svg>',
                                          "icone-salvaAlteracoes",
-                                         "submit",null,null,null,"Salvar-{$linha['id']}"
+                                         "submit","tooltip",null,null,"Salvar-{$linha['id']}"
             );
             
-            $BtnSalvarAlteracao->addEventos("AddLinhaEditadaURL('Ancora{$nrLinha}')");
-
-            // $AncoraEditar->addEventos("LiberaInputsTabela('Input{$linha['id']}','Salvar-{$linha['id']}')");
             $AncoraEditar->addEventos("LiberaInputsTabela('Linha-{$nrLinha}','Salvar-{$linha['id']}')");
             
-
             $divIcones = new Div("icones-tabela");
             $divIcones->addItens($AncoraExcluir);
             $divIcones->addItens($AncoraEditar);
@@ -235,7 +234,7 @@
             $nrLinha++;
         }
 
-        $form = new Form("POST");
+        $form = new Form("POST",null,null,"Forme-tabelas");
 
         $form->AddItemForm($table->Renderizar());
 

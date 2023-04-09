@@ -72,7 +72,7 @@ function LiberaInputsTabela(idLinha,idSalvar = String){
                 // quando abilitar para edicao coloca uma linha azul em baixo do campo
                 IconeSalvar.style.visibility = "visible";
                 InputsDentroLaLinha[i].disabled=false;
-                InputsDentroLaLinha[i].style.borderBottom = "1px solid rgb(31, 85, 203)"
+                InputsDentroLaLinha[i].style.borderBottom = "2px solid rgb(31, 85, 203)"
             }else{
                 // quando desabilitar remove a linha azul
                 IconeSalvar.style.visibility = "hidden";
@@ -92,5 +92,5 @@ function LiberaInputsTabela(idLinha,idSalvar = String){
 function ValidaAlteracaoInput(idInput){
     const Input = document.getElementsByName(idInput)[0];
         //quando a pessoa digitar alguma coisa dentro do input vai colocar uma linha vermelha
-        Input.style.borderBottom = "1px solid green"
+        Input.style.borderBottom = "2px solid green"
 }

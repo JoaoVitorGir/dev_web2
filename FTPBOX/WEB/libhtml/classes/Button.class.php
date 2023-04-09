@@ -9,9 +9,12 @@
         private $ariaLabel;
         private $Eventos;
         private $value;
+        private $dataBsHtml;
+        private $dataBsTitle;
+        private $dataBsplacement;
 
 
-        function __construct($conteudo=null,$class=null,$type=null,$dataBsToggle=null,$dataBsTarget=null,$dataBsDismiss=null,$id=null,$ariaLabel=null,$value=null,$name=null){
+        function __construct($conteudo=null,$class=null,$type=null,$dataBsToggle=null,$dataBsTarget=null,$dataBsDismiss=null,$id=null,$ariaLabel=null,$value=null,$name=null,$dataBsTitle=null,$dataBsHtml=null,$dataBsplacement=null){
             parent::__construct($id,$class,$name);
             $this->type = $type;
             $this->dataBsToggle = $dataBsToggle;
@@ -20,6 +23,9 @@
             $this->Conteudo = $conteudo;
             $this->ariaLabel = $ariaLabel;
             $this->value = $value;
+            $this->dataBsHtml = $dataBsHtml;
+            $this->dataBsTitle = $dataBsTitle;
+            $this->dataBsplacement = $dataBsplacement;
         }
 
         function addEventos($onClick=null){
@@ -42,6 +48,9 @@
             $resultado .= $this->dataBsTarget ? "data-bs-target=\"{$this->dataBsTarget}\"" : "";
             $resultado .= $this->dataBsDismiss ? "data-bs-dismiss=\"{$this->dataBsDismiss}\"" : "";
             $resultado .= $this->ariaLabel ? "aria-label=\"{$this->ariaLabel}\"" : "";
+            $resultado .= $this->dataBsHtml ? "data-bs-html=\"{$this->dataBsHtml}\"" : "";
+            $resultado .= $this->dataBsTitle ? "data-bs-title=\"{$this->dataBsTitle}\"" : "";
+            $resultado .= $this->dataBsplacement ? "data-bs-placement=\"{$this->dataBsplacement}\"" : "";
             $resultado .= $this->value ? "value=\"{$this->value}\"" : "";
 
             if ($this->Eventos){

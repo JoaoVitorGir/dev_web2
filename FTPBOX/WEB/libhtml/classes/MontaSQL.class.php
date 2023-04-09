@@ -28,15 +28,19 @@
         }
 
         private function MontaUpdate($tabela,$campos=[],$valores=[]){
-            $preUpdate = "UPDATE {$tabela} SET ";
+            $preUpdate = "";
 
-            if (count($campos) == count($valores)){
+            if (count($campos) == count($valores) && count($campos) > 0 && count($valores) > 0){
+                $preUpdate = "UPDATE {$tabela} SET ";
                 for ($I=0; $I < count($campos); $I++) { 
-                    $preUpdate .= $campos[$I]." = '".$valores[$I]."' ";
+                    $preUpdate .= $campos[$I]." = '".$valores[$I]."', ";
                 }
+                $preUpdate = substr($preUpdate,0,-2);
+
+            }else if (count($campos) == 0 && count($valores) == 0){
+                //echo "ERRO: Campos ou valores estão zerados";
             }else{
-                $preUpdate = "";
-                echo "ERRO: Qtd de campos e de valores não são iguais";
+                //echo "ERRO: Qtd de campos e de valores não são iguais";
             }
 
             return $preUpdate;
@@ -89,23 +93,30 @@
 
         //se quiser adicionar algum parametro ou condição adiciona um SetUpdate e dps chama a fucão para a dicionar a condicao
         function addParametros($where=null,$orderBy=null,$offSet=null,$limit=null){
-            $preParametros = "";
+            //só adiciona condição caso tenha SQL
+            if ($this->SQL != ""){
+                $preParametros = "";
 
-            $where ? $preParametros = " where ".$where : null;
-            $orderBy ? $preParametros .= " order By ".$orderBy : null;
-            $offSet ? $preParametros .= " offset ".$offSet : null;
-            $limit ? $preParametros .= " limit ".$limit : null;
+                $where ? $preParametros = " where ".$where : null;
+                $orderBy ? $preParametros .= " order By ".$orderBy : null;
+                $offSet ? $preParametros .= " offset ".$offSet : null;
+                $limit ? $preParametros .= " limit ".$limit : null;
 
-            $this->SQL .= $preParametros;
-
-            $this->UpdateObrigaCondicao = false;
+                $this->SQL .= $preParametros;
+                $this->UpdateObrigaCondicao = false;
+            }
         }
 
         function getSQL(){
-            if ($this->UpdateObrigaCondicao){
-                echo "Updates precisam ter condicao para serem alterado adicione alguma condicao";
+            //so retorna algo caso tenha SQL
+            if ($this->SQL != ""){
+                if ($this->UpdateObrigaCondicao){
+                    echo "Updates precisam ter condicao para serem alterado adicione alguma condicao";
+                }else{
+                    return $this->SQL;
+                }
             }else{
-                return $this->SQL;
+                return "";
             }
         }
     }

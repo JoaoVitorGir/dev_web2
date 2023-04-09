@@ -2,17 +2,17 @@ create table pessoas (
 	id integer,
     nome character varying COLLATE pg_catalog."default",
     cpf character varying COLLATE pg_catalog."default",
-    dt_nascimento date,
+    dtnascimento date,
     idade integer,
     cep character varying(10) COLLATE pg_catalog."default",
     bairro character varying(50) COLLATE pg_catalog."default",
-    nome_pai character varying(100) COLLATE pg_catalog."default",
-    nome_mae character varying(100) COLLATE pg_catalog."default"
+    nomepai character varying(100) COLLATE pg_catalog."default",
+    nomemae character varying(100) COLLATE pg_catalog."default"
 )
 
 select * from pessoas
 
-INSERT INTO pessoas (id, nome, cpf, dt_nascimento, idade, cep, bairro, nome_pai, nome_mae) VALUES
+INSERT INTO pessoas (id, nome, cpf, dtnascimento, idade, cep, bairro, nomepai, nomemae) VALUES
 (1, 'João da Silva', '123.456.789-00', '2000-01-01', 23, '12345-678', 'Centro', 'José da Silva', 'Maria Oliveira'),
 (2, 'Maria Oliveira', '987.654.321-00', '1995-05-10', 28, '54321-876', 'Praia Grande', 'Pedro Oliveira', 'Ana Santos'),
 (3, 'Pedro Oliveira', '456.123.789-00', '1980-07-22', 41, '98765-432', 'Jardim das Flores', 'Carlos Oliveira', 'Lucia Silva'),
@@ -41,13 +41,13 @@ INSERT INTO pessoas (id, nome, cpf, dt_nascimento, idade, cep, bairro, nome_pai,
 
 
 create table categorias (
-	cod_categoria integer,
+	cocategoria integer,
 	descricao character varying
 )
 
 select * from categorias
 
-INSERT INTO categorias (cod_categoria, descricao) VALUES
+INSERT INTO categorias (codcategoria, descricao) VALUES
   (1, 'Moda Feminina'),
   (2, 'Moda Masculina'),
   (3, 'Calçados'),
@@ -147,7 +147,7 @@ CREATE TABLE vendas (
     ID INTEGER NOT NULL,
     PRODUTO VARCHAR(50) NOT NULL,
     QUANTIDADE INTEGER NOT NULL,
-    DATA_VENDA DATE NOT NULL,
+    DATAVENDA DATE NOT NULL,
     PRIMARY KEY (ID)
 );
 
@@ -170,8 +170,8 @@ CREATE TABLE estoque (
 CREATE TABLE pedidos (
     ID INTEGER NOT NULL,
     CLIENTE VARCHAR(50) NOT NULL,
-    DATA_PEDIDO DATE NOT NULL,
-    VALOR_TOTAL NUMERIC(10,2) NOT NULL,
+    DATAPEDIDO DATE NOT NULL,
+    VALORTOTAL NUMERIC(10,2) NOT NULL,
     PRIMARY KEY (ID)
 );
 
@@ -230,7 +230,7 @@ CONCAT('Produto ', g.id),
 FROM generate_series(1, 12) g(id);
 
 -- INSERT para a tabela "pedidos" com 5 linhas
-INSERT INTO pedidos (ID, CLIENTE, DATA_PEDIDO, VALOR_TOTAL)
+INSERT INTO pedidos (ID, CLIENTE, DATA_PEDIDO, VALORTOTAL)
 SELECT
 g.id,
 CONCAT('Cliente ', g.id),

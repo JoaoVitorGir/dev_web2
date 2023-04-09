@@ -261,3 +261,19 @@
     background-color: inherit;
     border: none; 
 }
+
+.Forme-tabelas{
+    overflow: auto;
+}
+
+.Forme-tabelas::-webkit-scrollbar{
+    width: 5px;
+    height: 10px;
+    background-color: #212837;
+    border-radius: 10px;
+}
+
+.Forme-tabelas::-webkit-scrollbar-thumb{
+    background-color: #666666;
+    border-radius: 10px;
+}
