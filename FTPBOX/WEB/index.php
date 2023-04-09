@@ -151,6 +151,9 @@
         $Campos = $resposta[0]['campos'];
         
         $arrTitleTable = explode(',',trim($Campos,'{}'));
+
+        
+        //icone de adicionar uma nova linha
         array_unshift($arrTitleTable,"");
 
         $table->addArrTitle($arrTitleTable);
@@ -165,8 +168,8 @@
         
         $SQLSelect->addParametros(null,"id",$offSet,$itensPorPagina);
 
-        $resposta = $conect->execQuery($SQLSelect->getSQL());
         //resposta retorna uma matriz com todos os dados
+        $resposta = $conect->execQuery($SQLSelect->getSQL());
 
         $nrLinha = 0;
         foreach($resposta as $linha){
@@ -189,7 +192,7 @@
                                          <path d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992a.252.252 0 0 1 .02-.022zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486-.943 1.179z"/>
                                          </svg>',
                                          "icone-salvaAlteracoes",
-                                         "submit","tooltip",null,null,"Salvar-{$linha['id']}"
+                                         "submit",null,null,null,"Salvar-{$linha['id']}"
             );
             
             $AncoraEditar->addEventos("LiberaInputsTabela('Linha-{$nrLinha}','Salvar-{$linha['id']}')");
@@ -224,8 +227,6 @@
                     }
                 }
 
-               // $nameInputs[] = "{$linha['id']}-{$key}";
-
             }
 
             $_SESSION["Linha-{$nrLinha}"] = $nameInputs;
@@ -238,7 +239,32 @@
 
         $form->AddItemForm($table->Renderizar());
 
+        $BtnNovoRegistro = new Button('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-square" viewBox="0 0 16 16">
+                                       <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                       <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                                       </svg>',"button-nova-linha","button","modal","#ModalNovoRegistro");
+
+        
         $divCentertTabela->addItens($form->Renderizar());
+        $divCentertTabela->addItens($BtnNovoRegistro->Renderizar());
+
+        $SQLSelectTabelaAtual = new MontaSQL();
+        $SQLSelectTabelaAtual->setSelect("menuhome",["campos"]);
+        $SQLSelectTabelaAtual->addParametros("id={$_GET['idLista']}");
+
+        $ResultadoSQLSelectTabelaAtual = $conect->execQuery($SQLSelectTabelaAtual->getSQL());
+
+        $formInsert = new Form("POST",null,null,"form-Insere-registros");
+
+        $arrayCamposTabela =  explode(',',trim($ResultadoSQLSelectTabelaAtual[0]["campos"],'{}'));
+
+        foreach($arrayCamposTabela as $Campo){
+            $In = new Input("TEXT",$Campo,null,"input-Insere-registro",null,$Campo);
+            $formInsert->AddInput($In->Renderizar());
+        }
+
+        $ModalNovoRegistro = $bootstrap->Modal("Inserir registro tabela {$_GET["titulo"]}","ModalNovoRegistro",$formInsert->Renderizar());    
+        $DivConteudoPagina->addItens($ModalNovoRegistro);
 
         $colDireita->addItens($divCentertTabela->Renderizar());
 
@@ -262,9 +288,6 @@
         // $row2Paginas->addItens("Página 1");
         $colDireita->addItens($row2Paginas->Renderizar());
     }
-    
-
-    $teste = new MontaSQL();
 
     $row1->addItens($colEsquerda->Renderizar()); // add tudo na row1 
     $row1->addItens($colDireita->Renderizar()); 

@@ -277,3 +277,21 @@
     background-color: #666666;
     border-radius: 10px;
 }
+
+.button-nova-linha{
+    background-color: inherit;
+    border: none;
+    color: gold;
+}
+
+.form-Insere-registros{
+    display: grid;
+    margin: 1em;
+}
+
+.input-Insere-registro{
+    margin: 0px 0px 10px 0px;
+    border: solid;
+    border-radius: 0.5em;
+    border-width: 1px;
+}
