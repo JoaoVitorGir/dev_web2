@@ -8,12 +8,19 @@
         private $InputDisabled;
         private $InputId;
         private $Eventos;
-      
-        public function __construct($type, $name,$id, $classInp = null ,$value = null,$label = null,$disabled=false) {
+        private $laberrequired;
+        private $inputrequired;
+        private $readOnly;
+
+
+        public function __construct($type, $name=null,$id, $classInp = null ,$value = null,$label = null,$laberrequired = false,$disabled=false,$inputrequired=false,$readOnly=false) {
           $this->type = $type;
           $this->name = $name;
           $this->value = $value;
           $this->label = $label;
+          $this->laberrequired = $laberrequired;
+          $this->inputrequired = $inputrequired;
+          $this->readOnly = $readOnly;
           $this->classInp = $classInp;
           $this->InputDisabled = $disabled;
           $this->InputId = $id;
@@ -36,14 +43,18 @@
           $html = '';
       
           if ($this->label) {
-            $html .= "<label for=\"{$this->name}\">{$this->label}</label>";
+            if ($this->laberrequired){
+              $html .= "<label for=\"{$this->name}\" required >{$this->label}</label>";
+            }else{
+              $html .= "<label for=\"{$this->name}\" >{$this->label}</label>";
+            }
           }
-          
-          if ($this->InputDisabled){
-            $html .= "<input {$this->Eventos} type=\"{$this->type}\" id=\"{$this->InputId}\" class=\"$this->classInp\" name=\"{$this->name}\" value=\"{$this->value}\" disabled>";
-          }else{  
-            $html .= "<input {$this->Eventos} type=\"{$this->type}\" id=\"{$this->InputId}\" class=\"$this->classInp\" name=\"{$this->name}\" value=\"{$this->value}\">";
-          }
+
+          $AddRequired = $this->inputrequired == false ? null : "required";
+          $readOnly = $this->readOnly == false ? null : "readonly";
+          $disabled = $this->InputDisabled == false ? null : "disabled";
+
+          $html .= "<input {$this->Eventos} type=\"{$this->type}\" id=\"{$this->InputId}\" class=\"$this->classInp\" name=\"{$this->name}\" value=\"{$this->value}\" $AddRequired $readOnly $disabled >";
 
           return $html;
         }

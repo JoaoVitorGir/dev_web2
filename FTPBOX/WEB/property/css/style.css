@@ -294,4 +294,29 @@
     border: solid;
     border-radius: 0.5em;
     border-width: 1px;
+    border-color: black;
+}
+
+.input-Insere-registro:disabled{
+    background-color: #dddddd;
+    color: #ff0505;
+    border-color: grey;
+    border-width: 1px;
+}
+
+.input-Insere-registro:focus-visible{
+    outline: #146c43 auto 2px;
+    
+}
+
+.input-Insere-registro[required] + label:after {
+    content: "*";
+    color: red;
+}
+
+.btn-enviar-registros{
+    width: 100px;
+    border: none;
+    border-radius: 10px;
+    background-color: gold;
 }

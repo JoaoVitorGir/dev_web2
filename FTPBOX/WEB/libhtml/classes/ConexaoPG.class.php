@@ -14,7 +14,7 @@
         }
  
 
-        function execDeleteUpdate($SQL){
+        function execDeleteUpdateInsert($SQL){
             $stmt = $this->pdo->prepare($SQL);
             $stmt->execute();
         }

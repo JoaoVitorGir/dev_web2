@@ -3,7 +3,7 @@
         private $SQL;
         private $UpdateObrigaCondicao = false; //obriga a ter condicao ao fazer um update
 
-        private function MontaSelect($tabela,$campos=null,$count=null){
+        private function MontaSelect($tabela,$campos=null,$count=null,$max=null){
             if ($campos){
                 $PreSQL = "select ";
                 $ultimoCampo = end($campos);
@@ -20,6 +20,8 @@
                 if ($count){
                     $PreSQL = "select count({$count}) from {$tabela}"; 
                     
+                }else if($max){
+                    $PreSQL = "select max({$max}) from {$tabela}"; 
                 }else{
                     $PreSQL = "select * from {$tabela}"; 
                 }
@@ -74,8 +76,8 @@
             $this->SQL .= $joins;
         }
 
-        function setSelect($tabela,$campos=null,$count=null){
-            $this->SQL = $this->MontaSelect($tabela,$campos,$count);
+        function setSelect($tabela,$campos=null,$count=null,$max=null){
+            $this->SQL = $this->MontaSelect($tabela,$campos,$count,$max);
         }
 
         function setInsert($tabela,$campos=[],$valores=[]){

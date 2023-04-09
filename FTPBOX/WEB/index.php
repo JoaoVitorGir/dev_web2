@@ -100,7 +100,7 @@
         $SQLDeleteLinha->SetDelete($_GET['tabela']);
         $SQLDeleteLinha->addParametros("id={$_GET['excluirLinha']}");
         
-        $conect->execDeleteUpdate($SQLDeleteLinha->getSQL());
+        $conect->execDeleteUpdateInsert($SQLDeleteLinha->getSQL());
     }
 
     if (isset($_GET['AlteraLinha'])){
@@ -127,11 +127,10 @@
             //echo "SQLUPDATE = ".$SQLUpdate->getSQL();
 
             if ($SQLUpdate->getSQL() != ""){
-                $conect->execDeleteUpdate($SQLUpdate->getSQL());
+                $conect->execDeleteUpdateInsert($SQLUpdate->getSQL());
             }
         }
     }
-    
     
     if (isset($_GET['idLista']) && isset($_GET['titulo'])){
 
@@ -259,12 +258,46 @@
         $arrayCamposTabela =  explode(',',trim($ResultadoSQLSelectTabelaAtual[0]["campos"],'{}'));
 
         foreach($arrayCamposTabela as $Campo){
-            $In = new Input("TEXT",$Campo,null,"input-Insere-registro",null,$Campo);
+            if ($Campo == "ID"){
+                $SelectMaxID = new MontaSQL();
+                $SelectMaxID->setSelect($_GET["tabela"],null,null,"ID");
+                $resultadoMaxId = $conect->execQuery($SelectMaxID->getSQL());
+                $In = new Input("TEXT",$Campo,null,"input-Insere-registro",($resultadoMaxId[0]["max"]+1),$Campo,true,false,true,true);
+            }else{
+                $In = new Input("TEXT",$Campo,null,"input-Insere-registro",null,$Campo,true,false,true);
+            }
+            
             $formInsert->AddInput($In->Renderizar());
         }
 
+        $btnSalvar = new Button("Salvar","btn-enviar-registros","SUBMIT");
+        
+        $formInsert->AddItemForm($btnSalvar->Renderizar());
+
         $ModalNovoRegistro = $bootstrap->Modal("Inserir registro tabela {$_GET["titulo"]}","ModalNovoRegistro",$formInsert->Renderizar());    
         $DivConteudoPagina->addItens($ModalNovoRegistro);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $valores = [];
+
+            foreach($arrayCamposTabela as $C){
+                if (isset($_POST[$C])){
+                    if ($C == "ID"){
+                        $valores[] = ($resultadoMaxId[0]["max"]+1);
+                    }else{
+                        $valores[] = $_POST[$C];
+                    }
+                }else{
+                    break;
+                }
+            }
+            if ($valores){
+                $InsertRegistro = new MontaSQL();
+                $InsertRegistro->setInsert($_GET["tabela"],$arrayCamposTabela,$valores);
+                $conect->execDeleteUpdateInsert($InsertRegistro->getSQL());
+            }
+        }
+        
 
         $colDireita->addItens($divCentertTabela->Renderizar());
 
