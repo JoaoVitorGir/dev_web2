@@ -62,7 +62,7 @@ function LiberaInputsTabela(idLinha,idSalvar = String){
     localStorage.setItem('Linha',idLinha);
     localStorage.setItem('Salvar',idSalvar);
     const LinhaTabela = document.getElementById(idLinha);
-    var InputsDentroLaLinha = LinhaTabela.querySelectorAll('input');
+    var InputsDentroLaLinha = LinhaTabela.querySelectorAll("input");
     const IconeSalvar = document.getElementById(idSalvar); 
 
     for (var i = 0; i < InputsDentroLaLinha.length; i++) {  
@@ -81,7 +81,7 @@ function LiberaInputsTabela(idLinha,idSalvar = String){
                 localStorage.setItem('Linha',null);
                 localStorage.setItem('Salvar',null);
             }
-        }
+    }
 
         //adiciona os valores do input atual em um array para comparar se tem alguma alteraçao na hr de salvar
         ArrayValInputs.push({ [InputsDentroLaLinha[i].id]: InputsDentroLaLinha[i].value});
@@ -93,4 +93,8 @@ function ValidaAlteracaoInput(idInput){
     const Input = document.getElementsByName(idInput)[0];
         //quando a pessoa digitar alguma coisa dentro do input vai colocar uma linha vermelha
         Input.style.borderBottom = "2px solid green"
+}
+
+function ReloadPagina(){
+    location.reload();
 }

@@ -1,7 +1,7 @@
 <?php
     // Inclui a classe de carregamento automático de arquivos
     require("autoload.php");
-
+    
     session_start();
 
    // echo "aqui host = ".$_SERVER['SERVER_ADDR'];
@@ -216,7 +216,7 @@
                     }
                 }else{
                     if ($key != "id"){
-                        $input = new Input("text","{$linha['id']}-{$key}","Input{$linha['id']}","table-input",$celula,null,true);
+                        $input = new Input("text","{$linha['id']}-{$key}","Input{$linha['id']}","table-input",$celula,null,false,true);
                         $input->addEventos(null,"ValidaAlteracaoInput('{$linha['id']}-{$key}')");
                         array_push($arrlinha,$input->Renderizar());
                         //so adiciona aqui os valores do Input o id vai ser passado dirto na URL
@@ -287,6 +287,7 @@
                     }else{
                         $valores[] = $_POST[$C];
                     }
+                    unset($_POST[$C]);
                 }else{
                     break;
                 }

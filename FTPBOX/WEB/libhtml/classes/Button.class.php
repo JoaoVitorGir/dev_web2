@@ -28,10 +28,13 @@
             $this->dataBsplacement = $dataBsplacement;
         }
 
-        function addEventos($onClick=null){
+        function addEventos($onClick=null,$onsubmit=null){
             $Events = "";
             if ($onClick){
                 $Events .= " onClick=\"{$onClick}\" ";
+            }
+            if ($onsubmit){
+                $Events .= " onsubmit=\"{$onsubmit}\" ";
             }
 
             $this->Eventos = $Events;
